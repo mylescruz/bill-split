@@ -1,7 +1,7 @@
-import App from "./_app";
+import Home from "@/components/home";
 
-export default function Home() {
+export default function Index() {
   return (
-    <App />
+    <Home />
   );
 }
