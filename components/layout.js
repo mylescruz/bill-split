@@ -1,10 +1,12 @@
 import styles from "@/styles/layout.module.css";
-import { Container } from "react-bootstrap";
+import { Container, Navbar } from "react-bootstrap";
 
 const Layout = ({ children }) => {
     return (
         <>
-            <h1 className={styles.title}>Bill Splitter</h1>
+            <Navbar>
+                <Navbar.Brand href="/" className={`${styles.title} mx-auto`}>Bill Splitter</Navbar.Brand>
+            </Navbar>
             <Container className={`${styles.container} mx-auto w-75`}>
                 {children}
             </Container>
