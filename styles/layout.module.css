@@ -1,0 +1,20 @@
+.title {
+    color: var(--primary-white);
+    text-align: center;
+    margin: 1em 0em;
+}
+
+.container {
+    margin: 1em 0em;
+    padding: 1em 0em;
+    background-color: var(--primary-white);
+    color: var(--primary-green);
+    height: 50dvh;
+    border-radius: 24px;
+}
+
+.button {
+    background-color: var(--primary-green);
+    color: var(--primary-white);
+    border: 1px solid var(--primary-white);
+}
