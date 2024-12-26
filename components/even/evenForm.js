@@ -2,15 +2,8 @@ import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import styles from "@/styles/evenForm.module.css";
 
-const EvenForm = ({ openSplitModal }) => {
-    const emptyBillDetails = {
-        total: "",
-        tax: "",
-        tip: "",
-        people: ""
-    };
-    
-    const [billDetails, setBillDetails] = useState(emptyBillDetails);
+const EvenForm = ({ emptyBill, openSplitModal }) => {    
+    const [billDetails, setBillDetails] = useState(emptyBill);
 
     const handleInput = (e) => {
         setBillDetails({ ...billDetails, [e.target.id]: e.target.value});
@@ -22,14 +15,29 @@ const EvenForm = ({ openSplitModal }) => {
         if (input == '')
             setBillDetails({ ...billDetails, [e.target.id]: input });
         else
-        setBillDetails({ ...billDetails, [e.target.id]: parseFloat(input) });
+            setBillDetails({ ...billDetails, [e.target.id]: parseFloat(input) });
     };
 
     const SplitBill = (e) => {
         e.preventDefault();
 
+        console.log("People to split: ", billDetails.people);
+        const subTotal = billDetails.total - billDetails.tax;
+        console.log("Subtotal: ", subTotal);
+        const taxPercentage = billDetails.tax / subTotal;
+        console.log("Tax percentage: ", taxPercentage);
+        const tipAmount = subTotal * billDetails.tipPercentage;
+        console.log("Tip amount: ", tipAmount);
+        billDetails.tip = tipAmount;
+        const totalWithTip = billDetails.total + tipAmount;
+        console.log("Total with tip: ", totalWithTip);
+        billDetails.totalWithTip = totalWithTip;
+        const splitAmount = totalWithTip / billDetails.people;
+        console.log("Split amount: ", splitAmount);
+        billDetails.splitAmount = splitAmount;
+
         openSplitModal(billDetails);
-        setBillDetails(emptyBillDetails);
+        setBillDetails(emptyBill);
     };
 
     return (

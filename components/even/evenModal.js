@@ -9,12 +9,13 @@ const EvenModal = ({ bill, split, setSplit }) => {
     return (
         <Modal show={split} centered onHide={closeEvenModal}>
             <Modal.Header closeButton className={styles.modal}>
-                <Modal.Title>Your bill&#39;s split between {bill.people} people</Modal.Title>
+                <Modal.Title>Bill split between {bill.people} people</Modal.Title>
             </Modal.Header>
             <Modal.Body className={styles.modal}>
-                <p>Tax: <span id="even-tip-amount">${bill.tax}</span> </p>
-                <p>Bill Total: <span id="even-total-amount">${bill.total}</span> </p>
-                <p>Each Person: <span id="split-amount">$</span> </p> 
+                <p>Tax: {bill.tax}</p>
+                <p>Total Tip: {bill.tip}</p>
+                <p>Bill Total: {bill.totalWithTip}</p>
+                <p>Total Per Person: {bill.splitAmount}</p> 
             </Modal.Body>
         </Modal>
     );

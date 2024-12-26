@@ -4,10 +4,13 @@ import EvenModal from "./evenModal";
 
 const EvenLayout = () => {
     const emptyBill = {
-        total: 0,
-        tax: 0,
-        tip: 15,
-        people: 2
+        total: "",
+        tax: "",
+        tipPercentage: 0.15,
+        people: "",
+        tip: 0,
+        totalWithTip: 0,
+        splitAmount: 0
     };
 
     const [bill, setBill] = useState(emptyBill);
@@ -21,7 +24,7 @@ const EvenLayout = () => {
     return (
         <>
             <h4 className="text-center mx-2 mt-2 mb-4">Enter the bill&#39;s information</h4>
-            <EvenForm openSplitModal={openSplitModal} />
+            <EvenForm emptyBill={emptyBill} openSplitModal={openSplitModal} />
             
             <EvenModal bill={bill} split={split} setSplit={setSplit} />
         </>
