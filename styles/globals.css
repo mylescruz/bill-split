@@ -33,3 +33,17 @@ a {
 .form-input {
   margin: 0.5em 0.5em;
 }
+
+.green-button {
+  background-color: var(--primary-green);
+  color: var(--primary-white);
+  border: 1px solid var(--primary-white);
+  font-weight: bold;
+}
+
+.green-button:hover {
+  background-color: var(--primary-white);
+  color: var(--primary-green);
+  border: 1px solid var(--primary-green);
+  font-weight: bold;
+}

@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import styles from "@/styles/evenForm.module.css";
-import EvenModal from "./evenModal";
 
 const EvenForm = ({ openSplitModal }) => {
     const emptyBillDetails = {
-        total: 0,
-        tax: 0,
-        tip: 15,
-        people: 2
+        total: "",
+        tax: "",
+        tip: "",
+        people: ""
     };
     
     const [billDetails, setBillDetails] = useState(emptyBillDetails);
@@ -34,57 +33,28 @@ const EvenForm = ({ openSplitModal }) => {
     };
 
     return (
-        <>
-            <Form onSubmit={SplitBill}>
-                <Form.Group className="form-input">
-                    <Row className="mx-2 d-flex justify-content-between">
-                        <Col className="col-2">
-                            <Form.Label className="mt-1">Total</Form.Label>
-                        </Col>
-                        <Col className="col-8">
-                            <Form.Control id="total" className="h-100" type="number" min="0.01" step="0.01" value={billDetails.total} onChange={handleNumInput} required />
-                        </Col>
-                    </Row>
-                </Form.Group>
-                <Form.Group className="form-input">
-                    <Row className="mx-2 d-flex justify-content-between">
-                        <Col className="col-2">
-                            <Form.Label className="mt-1">Tax</Form.Label>
-                        </Col>
-                        <Col className="col-8">
-                            <Form.Control id="tax" className="h-100" type="number" min="0.01" step="0.01" value={billDetails.tax} onChange={handleNumInput} required />
-                        </Col>
-                    </Row>
-                </Form.Group>
-                <Form.Group className="form-input">
-                    <Row className="mx-2 d-flex justify-content-between">
-                        <Col className="col-2">
-                            <Form.Label className="mt-1">Tip</Form.Label>
-                        </Col>
-                        <Col className="col-8">
-                            <Form.Select id="tip" className="h-100" value={billDetails.tip} onChange={handleInput} required>
-                                <option value="15">15%</option>
-                                <option value="18">18%</option>
-                                <option value="20">20%</option>
-                            </Form.Select>
-                        </Col>
-                    </Row>
-                </Form.Group>
-                <Form.Group className="form-input">
-                    <Row className="mx-2 d-flex justify-content-between">
-                        <Col className="col-2">
-                            <Form.Label className="mt-1">People</Form.Label>
-                        </Col>
-                        <Col className="col-8">
-                            <Form.Control id="people" className="h-100" type="number" min="2" step="1" value={billDetails.people} onChange={handleNumInput} required />
-                        </Col>
-                    </Row>
-                </Form.Group>
-                <Form.Group className="form-input text-center my-2">
-                    <Button className={`${styles.button} btn-lg`} type="submit">Split</Button>
-                </Form.Group>
-            </Form>
-        </>
+        <Form onSubmit={SplitBill}>
+            <Form.Group className="form-input">
+                <Form.Control id="total" className="h-100 w-75 mx-auto" type="number" min="0.01" step="0.01" placeholder="Total" value={billDetails.total} onChange={handleNumInput} required />
+            </Form.Group>
+            <Form.Group className="form-input">
+                <Form.Control id="tax" className="h-100 w-75 mx-auto" type="number" min="0.01" step="0.01" placeholder="Tax" value={billDetails.tax} onChange={handleNumInput} required />
+            </Form.Group>
+            <Form.Group className="form-input">
+                <Form.Select id="tip" className="h-100 w-75 mx-auto" placeholder="Tip" value={billDetails.tip} onChange={handleInput} required>
+                    <option disabled>Tip Percentage</option>
+                    <option value="0.15">15%</option>
+                    <option value="0.18">18%</option>
+                    <option value="0.20">20%</option>
+                </Form.Select>
+            </Form.Group>
+            <Form.Group className="form-input">
+                <Form.Control id="people" className="h-100 w-75 mx-auto" type="number" min="2" step="1" placeholder="Number of people" value={billDetails.people} onChange={handleNumInput} required />
+            </Form.Group>
+            <Form.Group className="form-input text-center my-2">
+                <Button className="green-button" id={styles.splitEvenBtn} type="submit">Split</Button>
+            </Form.Group>
+        </Form>
     );
 };
 
