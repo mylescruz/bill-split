@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import styles from "@/styles/itemForm.module.css";
+import styles from "@/styles/infoForm.module.css";
 const MAX_SALES_TAX_PERCENTAGE = 0.125;
 
-const ItemForm = ({ setBill, emptyBill, setShowInfo, setShowPeople }) => {    
+const InfoForm = ({ setBill, emptyBill, setShowInfo, setShowPeople }) => {    
     const [billDetails, setBillDetails] = useState(emptyBill);
     const [custom, setCustom] = useState(false);
 
@@ -89,4 +89,4 @@ const ItemForm = ({ setBill, emptyBill, setShowInfo, setShowPeople }) => {
     );
 };
 
-export default ItemForm;
+export default InfoForm;

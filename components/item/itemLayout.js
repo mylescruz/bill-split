@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ItemForm from "./itemForm";
+import InfoForm from "./infoForm";
 import PeopleForm from "./peopleForm";
 
 const ItemLayout = () => {
@@ -20,7 +20,7 @@ const ItemLayout = () => {
     return (
         <>
             <h4 className="text-center mx-2 mt-2 mb-4">Enter the bill&#39;s information</h4>
-            {showInfo && <ItemForm setBill={setBill} emptyBill={emptyBill} setShowInfo={setShowInfo} setShowPeople={setShowPeople} />}
+            {showInfo && <InfoForm setBill={setBill} emptyBill={emptyBill} setShowInfo={setShowInfo} setShowPeople={setShowPeople} />}
             {showPeople && <PeopleForm bill={bill} setBill={setBill} setShowPeople={setShowPeople} />}
         </>
     );
