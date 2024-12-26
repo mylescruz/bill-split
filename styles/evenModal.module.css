@@ -1,3 +1,4 @@
 .modal {
     background-color: var(--primary-green);
+    border: 1px solid var(--primary-white);
 }

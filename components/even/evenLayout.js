@@ -8,7 +8,7 @@ const EvenLayout = () => {
         tax: "",
         tipPercentage: 0.15,
         people: "",
-        tip: 0,
+        tip: "",
         totalWithTip: 0,
         splitAmount: 0
     };

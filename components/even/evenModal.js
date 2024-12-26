@@ -13,9 +13,9 @@ const EvenModal = ({ bill, split, setSplit }) => {
                 <Modal.Title>Bill split between {bill.people} people</Modal.Title>
             </Modal.Header>
             <Modal.Body className={styles.modal}>
-                <p>Tax: {currencyFormatter.format(bill.tax)}</p>
+                <p>Original Total: {currencyFormatter.format(bill.total)}</p>
                 <p>Total Tip: {currencyFormatter.format(bill.tip)}</p>
-                <p>Bill Total: {currencyFormatter.format(bill.totalWithTip)}</p>
+                <p>Total including Tip: {currencyFormatter.format(bill.totalWithTip)}</p>
                 <p>Total Per Person: {currencyFormatter.format(bill.splitAmount)}</p> 
             </Modal.Body>
         </Modal>
