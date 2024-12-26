@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import styles from "@/styles/peopleForm.module.css";
 
-const PeopleForm = ({ bill, setBill, setShowPeople }) => {
+const PeopleForm = ({ bill, setBill, setShowPeople, setShowItems }) => {
     const emptyPerson = {
         id: 0,
         name: "",
@@ -28,6 +28,7 @@ const PeopleForm = ({ bill, setBill, setShowPeople }) => {
 
     const nextScreen = () => {
         setShowPeople(false);
+        setShowItems(true);
     };
 
     return (

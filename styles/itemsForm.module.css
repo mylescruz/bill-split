@@ -1,0 +1,14 @@
+#addItemBtn:active {
+    background-color: var(--primary-green);
+    color: var(--primary-white);
+    border: 1px solid var(--primary-white);
+    font-weight: bold;
+}
+
+.itemsAdded {
+    width: 75%;
+    background-color: var(--primary-green);
+    color: var(--primary-white);
+    border-radius: 12px;
+    padding: 0.5em;
+}
