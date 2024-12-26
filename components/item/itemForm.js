@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import styles from "@/styles/itemForm.module.css";
+const MAX_SALES_TAX_PERCENTAGE = 0.125;
 
-const ItemForm = ({ emptyBill }) => {    
+const ItemForm = ({ setBill, emptyBill, setShowInfo, setShowPeople }) => {    
     const [billDetails, setBillDetails] = useState(emptyBill);
     const [custom, setCustom] = useState(false);
 
@@ -35,8 +36,32 @@ const ItemForm = ({ emptyBill }) => {
             setBillDetails({ ...billDetails, tip: parseFloat(input) });
     };
 
+    const enterInfo = (e) => {
+        e.preventDefault();
+
+        const subTotal = billDetails.total - billDetails.tax;
+        const taxPercentage = billDetails.tax / subTotal;
+
+        if (taxPercentage > MAX_SALES_TAX_PERCENTAGE) {
+            window.alert('Invalid total and/or tax amounts');
+            return;
+        }
+
+        if (!custom) {
+            billDetails.tip = subTotal * billDetails.tipPercentage;
+        }
+
+        billDetails.totalWithTip = billDetails.total + billDetails.tip;
+        billDetails.splitAmount = billDetails.totalWithTip / billDetails.people;
+
+        setBill(billDetails);
+        setBillDetails(emptyBill);
+        setShowInfo(false);
+        setShowPeople(true);
+    };
+
     return (
-        <Form>
+        <Form onSubmit={enterInfo}>
             <Form.Group className="form-input">
                 <Form.Control id="total" className="h-100 w-75 mx-auto" type="number" min="0.01" step="0.01" placeholder="Total" value={billDetails.total} onChange={handleNumInput} required />
             </Form.Group>
@@ -49,7 +74,7 @@ const ItemForm = ({ emptyBill }) => {
                     <option value="0.15">15%</option>
                     <option value="0.18">18%</option>
                     <option value="0.20">20%</option>
-                    <option value="Custom">Custom</option>
+                    <option value="Custom">Custom/Gratuity</option>
                 </Form.Select>
             </Form.Group>
             {custom &&
@@ -58,7 +83,7 @@ const ItemForm = ({ emptyBill }) => {
             </Form.Group>
             }
             <Form.Group className="form-input text-center my-2">
-                <Button className="green-button" id={styles.splitItemBtn}>Next</Button>
+                <Button className="green-button" id={styles.splitItemBtn} type="submit">Next</Button>
             </Form.Group>
         </Form>
     );
