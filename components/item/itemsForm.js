@@ -38,22 +38,32 @@ const ItemsForm = ({ bill, setBill, setShowItems, setShowInfo }) => {
         if (allItems.length > 0)
             maxID = Math.max(...allItems.map(item => item.id));
 
-        // console.log(item);
         item.id = maxID + 1;
         setAllItems([...allItems, item]);
-        setBill({...bill, items: [...bill.items, item]});
+        setBill({...bill, 
+            items: [...bill.items, item]
+        });
+        bill.people.map(person => {
+            if (person.name === item.person) {
+                person.items = [...person.items, item]
+            }
+        });
         setItem(emptyItem);
     };
 
     const splitItems = () => {
         console.log(bill);
 
-        // bill.items.map(item => {
-
-        // });
-        // const totalCost = bill.people.map(person => {
-
-        // });
+        bill.people.map(person => {
+            let subTotal = 0;
+            person.items.map(item => {
+                subTotal += item.price;
+            });
+            person.subTotal = subTotal;
+            person.tax = subTotal * bill.taxPercentage;
+            person.tip = subTotal * bill.tipPercentage;
+            person.total = person.subTotal + person.tax + person.tip;
+        });
 
         setSplit(true);
     };

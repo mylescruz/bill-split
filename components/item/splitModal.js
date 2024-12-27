@@ -11,32 +11,32 @@ const SplitModal = ({ bill, split, setSplit, setShowItems, setShowInfo }) => {
     };
 
     return (
-        <Modal centered show={split}>
+        <Modal centered show={split} onHide={closeSplitModal}>
             <Modal.Header className={styles.modal}>
                 <Modal.Title>Bill split by items</Modal.Title>
             </Modal.Header>
             <Modal.Body className={styles.modal}>
                 <h5 className="text-center mt-2">Bill Totals</h5>
-                <p>Original Total: {currencyFormatter.format(bill.total)}</p>
-                <p>Total Tip: {currencyFormatter.format(bill.tip)}</p>
-                <p>Total including Tip: {currencyFormatter.format(bill.totalWithTip)}</p>
+                <p className="my-0">Original Total: <span className="float-end">{currencyFormatter.format(bill.total)}</span></p>
+                <p className="my-0">Total Tip: <span className="float-end">{currencyFormatter.format(bill.tip)}</span></p>
+                <p className="my-0">Total including Tip: <span className="float-end">{currencyFormatter.format(bill.totalWithTip)}</span></p>
 
                 <h5 className="text-center mt-2">Totals Per Person</h5>
                 {bill.people.map(person => (
-                    <>
-                        <h6 key={person.id} className="text-decoration-underline mb-0 mt-2">{person.name}</h6>
+                    <div key={person.id}>
+                        <h6 className="text-decoration-underline mb-0 mt-2">{person.name}</h6>
                         <p className="my-0">
-                            Items:{person.items.map(item => (<span key={item.id}>{item.name}: {currencyFormatter.format(item.price)}, </span> ))}
+                            Ordered: {person.items.map(item => (<span key={item.id}>{item.name} ({currencyFormatter.format(item.price)}) </span> ))}
                         </p>
                         <p className="my-0">SubTotal: <span className="float-end">{currencyFormatter.format(person.subTotal)}</span></p>
                         <p className="my-0">Tax: <span className="float-end">{currencyFormatter.format(person.tax)}</span></p>
                         <p className="my-0">Tip: <span className="float-end">{currencyFormatter.format(person.tip)}</span></p>
                         <p className="my-0">Total: <span className="float-end">{currencyFormatter.format(person.total)}</span></p>
-                    </>
+                    </div>
                 ))}
             </Modal.Body>
             <Modal.Footer className={styles.modal}>
-                <Button className="green-button" as={Link} href="/item">New Split</Button>
+                <Button className="white-button" id={styles.newSplitBtn} as={Link} href="/item" onClick={closeSplitModal}>New Split</Button>
             </Modal.Footer>
         </Modal>
     )
