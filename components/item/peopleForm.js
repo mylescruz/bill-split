@@ -13,6 +13,7 @@ const PeopleForm = ({ bill, setBill, setShowPeople, setShowItems }) => {
         total: 0
     };
     const [person, setPerson] = useState(emptyPerson);
+    const [nextDisabled, setNextDisabled] = useState(true);
 
     const handleInput = (e) => {
         setPerson({...person, [e.target.id]: e.target.value})
@@ -27,6 +28,10 @@ const PeopleForm = ({ bill, setBill, setShowPeople, setShowItems }) => {
 
         person.id = maxID + 1;
         setBill({...bill, people: [...bill.people, person]});
+
+        if (bill.people.length >= 1)
+            setNextDisabled(false);
+
         setPerson(emptyPerson);
     };
 
@@ -58,7 +63,7 @@ const PeopleForm = ({ bill, setBill, setShowPeople, setShowItems }) => {
             </Container>
 
             <Container className="text-center mt-3">
-                <Button className="green-button" id={styles.peopleNextBtn} onClick={nextScreen}>Next</Button>
+                <Button className="green-button" id={styles.peopleNextBtn} onClick={nextScreen} disabled={nextDisabled}>Next</Button>
             </Container>
         </>
     );

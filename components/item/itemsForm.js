@@ -15,6 +15,7 @@ const ItemsForm = ({ bill, setBill, setShowItems, setShowInfo }) => {
     const [item, setItem] = useState(emptyItem);
     const [allItems, setAllItems] = useState([]);
     const [split, setSplit] = useState(false);
+    const [splitDisabled, setSplitDisabled] = useState(true);
 
     const handleInput = (e) => {
         const input = e.target.value;
@@ -49,6 +50,9 @@ const ItemsForm = ({ bill, setBill, setShowItems, setShowInfo }) => {
             }
         });
         setItem(emptyItem);
+
+        if (bill.items.length >= 1)
+            setSplitDisabled(false);
     };
 
     const splitItems = () => {
@@ -100,7 +104,7 @@ const ItemsForm = ({ bill, setBill, setShowItems, setShowInfo }) => {
             </Container>
 
             <Container className="text-center mt-3">
-                <Button className="green-button" id={styles.itemsSplitBtn} onClick={splitItems}>Split</Button>
+                <Button className="green-button" id={styles.itemsSplitBtn} onClick={splitItems} disabled={splitDisabled}>Split</Button>
             </Container>
 
             <SplitModal bill={bill} split={split} setSplit={setSplit} setShowItems={setShowItems} setShowInfo={setShowInfo} />
