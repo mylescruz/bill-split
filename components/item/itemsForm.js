@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container, Form, Modal } from "react-bootstrap";
 import styles from "@/styles/itemsForm.module.css";
 import currencyFormatter from "@/helpers/currencyFormatter";
+import SplitModal from "./splitModal";
 
-const ItemsForm = ({ bill, setBill, setShowItems }) => {   
-    // Need to set person in emptyItem equal to the first person listed
-
+const ItemsForm = ({ bill, setBill, setShowItems, setShowInfo }) => {   
     const emptyItem = {
         id: 0,
         name: "",
@@ -15,6 +14,7 @@ const ItemsForm = ({ bill, setBill, setShowItems }) => {
 
     const [item, setItem] = useState(emptyItem);
     const [allItems, setAllItems] = useState([]);
+    const [split, setSplit] = useState(false);
 
     const handleInput = (e) => {
         const input = e.target.value;
@@ -38,11 +38,24 @@ const ItemsForm = ({ bill, setBill, setShowItems }) => {
         if (allItems.length > 0)
             maxID = Math.max(...allItems.map(item => item.id));
 
-        console.log(item);
+        // console.log(item);
         item.id = maxID + 1;
         setAllItems([...allItems, item]);
         setBill({...bill, items: [...bill.items, item]});
         setItem(emptyItem);
+    };
+
+    const splitItems = () => {
+        console.log(bill);
+
+        // bill.items.map(item => {
+
+        // });
+        // const totalCost = bill.people.map(person => {
+
+        // });
+
+        setSplit(true);
     };
 
     return (
@@ -75,6 +88,12 @@ const ItemsForm = ({ bill, setBill, setShowItems }) => {
                 ))}
                 </ul>
             </Container>
+
+            <Container className="text-center mt-3">
+                <Button className="green-button" id={styles.itemsSplitBtn} onClick={splitItems}>Split</Button>
+            </Container>
+
+            <SplitModal bill={bill} split={split} setSplit={setSplit} setShowItems={setShowItems} setShowInfo={setShowInfo} />
         </>
     );
 };

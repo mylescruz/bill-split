@@ -46,7 +46,8 @@ const InfoForm = ({ setBill, emptyBill, setShowInfo, setShowPeople }) => {
             window.alert('Invalid total and/or tax amounts');
             return;
         }
-
+        billDetails.taxPercentage = taxPercentage;
+        
         if (!custom) {
             billDetails.tip = subTotal * billDetails.tipPercentage;
         }

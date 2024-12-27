@@ -6,7 +6,11 @@ const PeopleForm = ({ bill, setBill, setShowPeople, setShowItems }) => {
     const emptyPerson = {
         id: 0,
         name: "",
-        item: ""
+        items: [],
+        subTotal: 0,
+        tax: 0,
+        tip: 0,
+        total: 0
     };
     const [person, setPerson] = useState(emptyPerson);
 
