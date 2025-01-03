@@ -65,7 +65,15 @@ const ItemsForm = ({ bill, setBill, setShowItems, setShowInfo }) => {
             });
             person.subTotal = subTotal;
             person.tax = subTotal * bill.taxPercentage;
-            person.tip = subTotal * bill.tipPercentage;
+            
+            if (bill.customTip) {
+                const billSubTotal = bill.total - bill.tax;
+                const billPercentage = person.subTotal / billSubTotal;
+                person.tip = billPercentage * bill.tip;
+            } else {
+                person.tip = subTotal * bill.tipPercentage;
+            }
+            
             person.total = person.subTotal + person.tax + person.tip;
         });
 

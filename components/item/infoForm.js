@@ -5,15 +5,19 @@ const MAX_SALES_TAX_PERCENTAGE = 0.125;
 
 const InfoForm = ({ setBill, emptyBill, setShowInfo, setShowPeople }) => {    
     const [billDetails, setBillDetails] = useState(emptyBill);
-    const [custom, setCustom] = useState(false);
+    const [customTip, setCustomTip] = useState(false);
 
     const handleInput = (e) => {
         const input = e.target.value;
 
-        if (input !== "Custom")
-            setCustom(false);
-        else
-            setCustom(true);
+        if (input === "Custom") {
+            setBillDetails({ ...billDetails, customTip: true});
+            setCustomTip(true);
+        }
+        else {
+            setBillDetails({ ...billDetails, customTip: false});
+            setCustomTip(false);
+        }
 
         setBillDetails({ ...billDetails, [e.target.id]: e.target.value});
     };
@@ -48,8 +52,10 @@ const InfoForm = ({ setBill, emptyBill, setShowInfo, setShowPeople }) => {
         }
         billDetails.taxPercentage = taxPercentage;
         
-        if (!custom) {
+        if (!customTip) {
             billDetails.tip = subTotal * billDetails.tipPercentage;
+        } else {
+            billDetails.customTip = true;
         }
 
         billDetails.totalWithTip = billDetails.total + billDetails.tip;
@@ -78,7 +84,7 @@ const InfoForm = ({ setBill, emptyBill, setShowInfo, setShowPeople }) => {
                     <option value="Custom">Custom/Gratuity</option>
                 </Form.Select>
             </Form.Group>
-            {custom &&
+            {customTip &&
             <Form.Group className="form-input">
                 <Form.Control id="customTip" className="h-100 w-75 mx-auto" type="number" min="0.01" step="0.01" placeholder="Tip/Gratuity ($)" value={billDetails.tip} onChange={handleCustomTip} required />
             </Form.Group>

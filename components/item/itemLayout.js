@@ -12,6 +12,7 @@ const ItemLayout = () => {
         people: [],
         items: [],
         tip: "",
+        customTip: false,
         totalWithTip: 0
     };
     
