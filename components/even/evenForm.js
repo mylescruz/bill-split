@@ -1,20 +1,19 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import styles from "@/styles/evenForm.module.css";
+const MAX_SALES_TAX_PERCENTAGE = 0.125;
 
 const EvenForm = ({ emptyBill, openSplitModal }) => {    
     const [billDetails, setBillDetails] = useState(emptyBill);
-    const [custom, setCustom] = useState(false);
-
-    const MAX_SALES_TAX_PERCENTAGE = 0.125;
+    const [customTip, setCustomTip] = useState(false);
 
     const handleInput = (e) => {
         const input = e.target.value;
 
         if (input !== "Custom")
-            setCustom(false);
+            setCustomTip(false);
         else
-            setCustom(true);
+            setCustomTip(true);
 
         setBillDetails({ ...billDetails, [e.target.id]: e.target.value});
     };
@@ -48,7 +47,7 @@ const EvenForm = ({ emptyBill, openSplitModal }) => {
             return;
         }
 
-        if (!custom) {
+        if (!customTip) {
             billDetails.tip = subTotal * billDetails.tipPercentage;
         }
 
@@ -77,7 +76,7 @@ const EvenForm = ({ emptyBill, openSplitModal }) => {
                     <option value="Custom">Custom</option>
                 </Form.Select>
             </Form.Group>
-            {custom &&
+            {customTip &&
             <Form.Group className="form-input">
                 <Form.Control id="customTip" className="h-100 w-75 mx-auto" type="number" min="0.01" step="0.01" placeholder="Tip/Gratuity ($)" value={billDetails.tip} onChange={handleCustomTip} required />
             </Form.Group>
