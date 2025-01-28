@@ -24,9 +24,9 @@ const ItemLayout = () => {
     return (
         <>
             <h4 className="text-center mx-2 mt-2 mb-4">Enter the bill&#39;s information</h4>
-            {showInfo && <InfoForm setBill={setBill} emptyBill={emptyBill} setShowInfo={setShowInfo} setShowPeople={setShowPeople} />}
-            {showPeople && <PeopleForm bill={bill} setBill={setBill} setShowPeople={setShowPeople} setShowItems={setShowItems} />}
-            {showItems && <ItemsForm bill={bill} setBill={setBill} people={bill.people} setShowItems={setShowItems} setShowInfo={setShowInfo} />}
+            {showInfo && <InfoForm bill={bill} setBill={setBill} emptyBill={emptyBill} setShowInfo={setShowInfo} setShowPeople={setShowPeople} />}
+            {showPeople && <PeopleForm bill={bill} setBill={setBill} setShowInfo={setShowInfo} setShowPeople={setShowPeople} setShowItems={setShowItems} />}
+            {showItems && <ItemsForm bill={bill} setBill={setBill} emptyBill={emptyBill} people={bill.people} setShowPeople={setShowPeople} setShowItems={setShowItems} setShowInfo={setShowInfo} />}
         </>
     );
 };

@@ -3,8 +3,8 @@ import { Button, Form } from "react-bootstrap";
 import styles from "@/styles/infoForm.module.css";
 const MAX_SALES_TAX_PERCENTAGE = 0.125;
 
-const InfoForm = ({ setBill, emptyBill, setShowInfo, setShowPeople }) => {    
-    const [billDetails, setBillDetails] = useState(emptyBill);
+const InfoForm = ({ bill, setBill, emptyBill, setShowInfo, setShowPeople }) => {    
+    const [billDetails, setBillDetails] = useState(bill);
     const [customTip, setCustomTip] = useState(false);
 
     const handleInput = (e) => {
@@ -60,6 +60,8 @@ const InfoForm = ({ setBill, emptyBill, setShowInfo, setShowPeople }) => {
 
         billDetails.totalWithTip = billDetails.total + billDetails.tip;
         billDetails.splitAmount = billDetails.totalWithTip / billDetails.people;
+
+        console.log(bill);
 
         setBill(billDetails);
         setBillDetails(emptyBill);

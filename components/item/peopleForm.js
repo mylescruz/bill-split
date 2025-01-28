@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import styles from "@/styles/peopleForm.module.css";
 
-const PeopleForm = ({ bill, setBill, setShowPeople, setShowItems }) => {
+const PeopleForm = ({ bill, setBill, setShowInfo, setShowPeople, setShowItems }) => {
     const emptyPerson = {
         id: 0,
         name: "",
@@ -40,6 +40,11 @@ const PeopleForm = ({ bill, setBill, setShowPeople, setShowItems }) => {
         setShowItems(true);
     };
 
+    const goBacktoInfo = () => {
+        setShowPeople(false);
+        setShowInfo(true);
+    };
+
     return (
         <>
             <Form onSubmit={enterPeople}>
@@ -63,7 +68,8 @@ const PeopleForm = ({ bill, setBill, setShowPeople, setShowItems }) => {
             </Container>
 
             <Container className="text-center mt-3">
-                <Button className="green-button" id={styles.peopleNextBtn} onClick={nextScreen} disabled={nextDisabled}>Next</Button>
+                <Button className="green-button mx-4" id={styles.peopleBackBtn} onClick={goBacktoInfo}>Back</Button>
+                <Button className="green-button mx-4" id={styles.peopleNextBtn} onClick={nextScreen} disabled={nextDisabled}>Next</Button>
             </Container>
         </>
     );

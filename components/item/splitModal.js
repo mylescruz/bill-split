@@ -3,8 +3,10 @@ import styles from "@/styles/splitModal.module.css";
 import Link from "next/link";
 import currencyFormatter from "@/helpers/currencyFormatter";
 
-const SplitModal = ({ bill, split, setSplit, setShowItems, setShowInfo }) => {
+const SplitModal = ({ bill, setBill, emptyBill, split, setSplit, setShowItems, setShowInfo }) => {
     const closeSplitModal = () => {
+        setBill(emptyBill);
+        
         setSplit(false);
         setShowItems(false);
         setShowInfo(true);

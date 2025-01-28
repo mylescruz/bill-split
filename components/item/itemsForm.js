@@ -4,7 +4,7 @@ import styles from "@/styles/itemsForm.module.css";
 import currencyFormatter from "@/helpers/currencyFormatter";
 import SplitModal from "./splitModal";
 
-const ItemsForm = ({ bill, setBill, setShowItems, setShowInfo }) => {   
+const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setShowInfo }) => {   
     const emptyItem = {
         id: 0,
         name: "",
@@ -80,6 +80,11 @@ const ItemsForm = ({ bill, setBill, setShowItems, setShowInfo }) => {
         setSplit(true);
     };
 
+    const goBackToPeople = () => {
+        setShowItems(false);
+        setShowPeople(true);
+    };
+
     return (
         <>
             <Form onSubmit={enterItems}>
@@ -112,10 +117,11 @@ const ItemsForm = ({ bill, setBill, setShowItems, setShowInfo }) => {
             </Container>
 
             <Container className="text-center mt-3">
-                <Button className="green-button" id={styles.itemsSplitBtn} onClick={splitItems} disabled={splitDisabled}>Split</Button>
+                <Button className="green-button mx-4" id={styles.itemsBackBtn} onClick={goBackToPeople}>Back</Button>
+                <Button className="green-button mx-4" id={styles.itemsSplitBtn} onClick={splitItems} disabled={splitDisabled}>Split</Button>
             </Container>
 
-            <SplitModal bill={bill} split={split} setSplit={setSplit} setShowItems={setShowItems} setShowInfo={setShowInfo} />
+            <SplitModal bill={bill} setBill={setBill} emptyBill={emptyBill} split={split} setSplit={setSplit} setShowItems={setShowItems} setShowInfo={setShowInfo} />
         </>
     );
 };
