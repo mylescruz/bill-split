@@ -65,3 +65,31 @@ a {
 #disabled-button {
   background-color: gray;
 }
+
+/* X-Small Device */
+@media (max-width: 576px) {
+  .content {
+      width: 75%;   
+  }
+}
+
+/* Small Device */
+@media (min-width: 576px) and (max-width: 767.99px) {
+  .content {
+      width: 50%;   
+  }
+}
+
+/* Medium-Large Devices */
+@media (min-width: 768px) and (max-width: 1199.99px) {
+  .content {
+      width: 50%;   
+  }
+}
+
+/* XL Device */
+@media (min-width: 1200px) {
+  .content {
+      width: 50%;   
+  }
+}

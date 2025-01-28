@@ -52,8 +52,8 @@ const PeopleForm = ({ bill, setBill, setShowInfo, setShowPeople, setShowItems })
                 <Col className="px-0"><Form.Group>
                     <Form.Control id="name" className="h-100 w-100" type="text" placeholder="Enter each person" value={person.name} onChange={handleInput} required />
                 </Form.Group></Col>
-                <Col className="col-2 px-0"><Form.Group className="text-center my-2">
-                    <Button className="green-button btn-sm" id={styles.splitItemBtn} type="submit">+</Button>
+                <Col className="col-2 col-lg-1 px-0"><Form.Group className="text-center my-2">
+                    <Button className="btn-sm" id={styles.addPersonBtn} type="submit">+</Button>
                 </Form.Group></Col>
                 </Row>
             </Form>

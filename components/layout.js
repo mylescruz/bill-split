@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
             <Navbar>
                 <Navbar.Brand href="/" className={`${styles.title} mx-auto`}>Bill Splitter</Navbar.Brand>
             </Navbar>
-            <Container className={`${styles.container} mx-auto w-75`}>
+            <Container className={`${styles.container} content mx-auto`}>
                 {children}
             </Container>
             <div className="text-center my-4">

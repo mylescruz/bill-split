@@ -56,7 +56,7 @@ const EvenForm = ({ emptyBill, openSplitModal }) => {
 
         openSplitModal(billDetails);
         setBillDetails(emptyBill);
-        setCustom(false);
+        setCustomTip(false);
     };
 
     return (
