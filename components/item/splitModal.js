@@ -25,16 +25,27 @@ const SplitModal = ({ bill, setBill, emptyBill, split, setSplit, setShowItems, s
 
                 <h5 className="text-center mt-2">Totals Per Person</h5>
                 {bill.people.map(person => (
-                    <div key={person.id}>
-                        <h6 className="text-decoration-underline mb-0 mt-2">{person.name}</h6>
-                        <p className="my-0">
-                            Ordered: {person.items.map(item => (<span key={item.id}>{item.name} ({currencyFormatter.format(item.price)}) </span> ))}
-                        </p>
-                        <p className="my-0">SubTotal: <span className="float-end">{currencyFormatter.format(person.subTotal)}</span></p>
-                        <p className="my-0">Tax: <span className="float-end">{currencyFormatter.format(person.tax)}</span></p>
-                        <p className="my-0">Tip: <span className="float-end">{currencyFormatter.format(person.tip)}</span></p>
-                        <p className="my-0">Total: <span className="float-end">{currencyFormatter.format(person.total)}</span></p>
-                    </div>
+                    (person.name === "Shared" ?
+                        <div key={person.id}>   
+                            <h6 className="text-decoration-underline mb-0 mt-2">{person.name}</h6>
+                            <p className="my-0">
+                                Ordered: {person.items.map(item => (<span key={item.id}>{item.name} ({currencyFormatter.format(item.price)}) </span> ))}
+                            </p>
+                            <p className="my-0">SubTotal: <span className="float-end">{currencyFormatter.format(person.subTotal)}</span></p>
+                            <p className="my-0">Each Person&#39;s Share: <span className="float-end">{currencyFormatter.format(person.subTotal / (bill.people.length-1))}</span></p>
+                        </div>
+                        :
+                        <div key={person.id}>   
+                            <h6 className="text-decoration-underline mb-0 mt-2">{person.name}</h6>
+                            <p className="my-0">
+                                Ordered: {person.items.map(item => (<span key={item.id}>{item.name} ({currencyFormatter.format(item.price)}) </span> ))}
+                            </p>
+                            <p className="my-0">SubTotal: <span className="float-end">{currencyFormatter.format(person.subTotal)}</span></p>
+                            <p className="my-0">Tax: <span className="float-end">{currencyFormatter.format(person.tax)}</span></p>
+                            <p className="my-0">Tip: <span className="float-end">{currencyFormatter.format(person.tip)}</span></p>
+                            <p className="my-0">Total: <span className="float-end">{currencyFormatter.format(person.total)}</span></p>
+                        </div>
+                    )
                 ))}
             </Modal.Body>
             <Modal.Footer className={styles.modal}>

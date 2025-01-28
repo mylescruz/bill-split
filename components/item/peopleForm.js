@@ -4,7 +4,7 @@ import styles from "@/styles/peopleForm.module.css";
 
 const PeopleForm = ({ bill, setBill, setShowInfo, setShowPeople, setShowItems }) => {
     const emptyPerson = {
-        id: 0,
+        id: 1,
         name: "",
         items: [],
         subTotal: 0,
@@ -62,7 +62,7 @@ const PeopleForm = ({ bill, setBill, setShowInfo, setShowPeople, setShowItems })
                 <h5 className="text-center mt-2">Added People</h5>
                 <ul>
                 {bill.people.map(person => (
-                    <li key={person.id} className={styles.list}>{person.name}</li>
+                    (person.name !== "Shared" && <li key={person.id} className={styles.list}>{person.name}</li>)
                 ))}
                 </ul>
             </Container>

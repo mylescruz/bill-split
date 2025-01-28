@@ -7,13 +7,13 @@ const ItemLayout = () => {
     const infoText = "Enter the bill's information";
     const peopleText = "Enter the people dining";
     const itemText = "Enter the items ordered";
-    
+
     const emptyBill = {
         total: "",
         tax: "",
         taxPercentage: 0,
         tipPercentage: 0.15,
-        people: [],
+        people: [{id: 0, name: "Shared", items: [], subTotal: 0, tax: 0, tip: 0, total: 0}],
         items: [],
         tip: "",
         customTip: false,

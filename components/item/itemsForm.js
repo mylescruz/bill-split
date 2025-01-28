@@ -58,23 +58,32 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
     const splitItems = () => {
         console.log(bill);
 
+        let sharedSubTotal = 0;
         bill.people.map(person => {
             let subTotal = 0;
+
             person.items.map(item => {
                 subTotal += item.price;
             });
-            person.subTotal = subTotal;
-            person.tax = subTotal * bill.taxPercentage;
-            
-            if (bill.customTip) {
-                const billSubTotal = bill.total - bill.tax;
-                const billPercentage = person.subTotal / billSubTotal;
-                person.tip = billPercentage * bill.tip;
+
+            if (person.name === "Shared") {
+                const numPeople = bill.people.length - 1;
+                person.subTotal = subTotal;
+                sharedSubTotal = person.subTotal / numPeople;
             } else {
-                person.tip = subTotal * bill.tipPercentage;
+                person.subTotal = subTotal + sharedSubTotal;
+                person.tax = person.subTotal * bill.taxPercentage;
+                
+                if (bill.customTip) {
+                    const billSubTotal = bill.total - bill.tax;
+                    const billPercentage = person.subTotal / billSubTotal;
+                    person.tip = billPercentage * bill.tip;
+                } else {
+                    person.tip = person.subTotal * bill.tipPercentage;
+                }
+                
+                person.total = person.subTotal + person.tax + person.tip;
             }
-            
-            person.total = person.subTotal + person.tax + person.tip;
         });
 
         setSplit(true);
