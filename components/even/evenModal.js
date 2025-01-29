@@ -1,6 +1,7 @@
-import { Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import styles from "@/styles/evenModal.module.css";
 import currencyFormatter from "@/helpers/currencyFormatter";
+import Link from "next/link";
 
 const EvenModal = ({ bill, split, setSplit }) => {
     const closeEvenModal = () => {
@@ -18,6 +19,10 @@ const EvenModal = ({ bill, split, setSplit }) => {
                 <p>Total including Tip: {currencyFormatter.format(bill.totalWithTip)}</p>
                 <p>Total Per Person: {currencyFormatter.format(bill.splitAmount)}</p> 
             </Modal.Body>
+            <Modal.Footer className={styles.modal}>
+                <Button as={Link} href="/" className="white-button" id={styles.homeBtn}>Home</Button>
+                <Button className="white-button" id={styles.newSplitBtn} as={Link} href="/even" onClick={closeEvenModal}>New Split</Button>
+            </Modal.Footer>
         </Modal>
     );
 };

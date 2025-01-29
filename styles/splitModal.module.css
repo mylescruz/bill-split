@@ -3,7 +3,7 @@
     border: 1px solid var(--primary-white);
 }
 
-#newSplitBtn:active {
+#newSplitBtn:active, #homeBtn:active {
     background-color: var(--primary-white);
     color: var(--primary-green);
     border: 1px solid var(--primary-green);

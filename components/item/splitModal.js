@@ -49,6 +49,7 @@ const SplitModal = ({ bill, setBill, emptyBill, split, setSplit, setShowItems, s
                 ))}
             </Modal.Body>
             <Modal.Footer className={styles.modal}>
+                <Button as={Link} href="/" className="white-button" id={styles.homeBtn}>Home</Button>
                 <Button className="white-button" id={styles.newSplitBtn} as={Link} href="/item" onClick={closeSplitModal}>New Split</Button>
             </Modal.Footer>
         </Modal>

@@ -11,9 +11,6 @@ const Layout = ({ children }) => {
             <Container className={`${styles.container} content mx-auto`}>
                 {children}
             </Container>
-            <div className="text-center my-4">
-                <Button as={Link} href="/" className="white-button" id={styles.homeBtn}>Home</Button>
-            </div>
         </>
     );
 };

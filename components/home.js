@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button, Col, Row } from "react-bootstrap";
 import styles from "@/styles/home.module.css";
 
-const Home = ({props}) => {
+const Home = () => {
     return (
         <>
             <h4 className="text-center mx-4 my-4">Split your bill evenly or by item</h4>
