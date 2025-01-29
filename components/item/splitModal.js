@@ -25,15 +25,18 @@ const SplitModal = ({ bill, setBill, emptyBill, split, setSplit, setShowItems, s
 
                 <h5 className="text-center mt-2">Totals Per Person</h5>
                 {bill.people.map(person => (
-                    (person.name === "Shared" ?
-                        <div key={person.id}>   
-                            <h6 className="text-decoration-underline mb-0 mt-2">{person.name}</h6>
-                            <p className="my-0">
-                                Ordered: {person.items.map(item => (<span key={item.id}>{item.name} ({currencyFormatter.format(item.price)}) </span> ))}
-                            </p>
-                            <p className="my-0">SubTotal: <span className="float-end">{currencyFormatter.format(person.subTotal)}</span></p>
-                            <p className="my-0">Each Person&#39;s Share: <span className="float-end">{currencyFormatter.format(person.subTotal / (bill.people.length-1))}</span></p>
-                        </div>
+                    (person.name === "Shared" ? 
+                        (person.items.length > 0 &&
+                            <div key={person.id}>
+                                <p>{person.items.length}</p>   
+                                <h6 className="text-decoration-underline mb-0 mt-2">{person.name}</h6>
+                                <p className="my-0">
+                                    Ordered: {person.items.map(item => (<span key={item.id}>{item.name} ({currencyFormatter.format(item.price)}) </span> ))}
+                                </p>
+                                <p className="my-0">SubTotal: <span className="float-end">{currencyFormatter.format(person.subTotal)}</span></p>
+                                <p className="my-0">Each Person&#39;s Share: <span className="float-end">{currencyFormatter.format(person.subTotal / (bill.people.length-1))}</span></p>
+                            </div>
+                        )
                         :
                         <div key={person.id}>   
                             <h6 className="text-decoration-underline mb-0 mt-2">{person.name}</h6>
