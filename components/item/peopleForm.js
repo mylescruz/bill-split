@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import styles from "@/styles/peopleForm.module.css";
 
@@ -12,8 +12,14 @@ const PeopleForm = ({ bill, setBill, setShowInfo, setShowPeople, setShowItems })
         tip: 0,
         total: 0
     };
+
     const [person, setPerson] = useState(emptyPerson);
-    const [nextDisabled, setNextDisabled] = useState(true);
+    const [nextDisabled, setNextDisabled] = useState(bill.people.length < 2);
+
+    useEffect(() => {
+        if (bill.people.length > 2)
+            setNextDisabled(false);
+    }, [bill.people]);
 
     const handleInput = (e) => {
         setPerson({...person, [e.target.id]: e.target.value})
@@ -28,9 +34,6 @@ const PeopleForm = ({ bill, setBill, setShowInfo, setShowPeople, setShowItems })
 
         person.id = maxID + 1;
         setBill({...bill, people: [...bill.people, person]});
-
-        if (bill.people.length >= 1)
-            setNextDisabled(false);
 
         setPerson(emptyPerson);
     };
