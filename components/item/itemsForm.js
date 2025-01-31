@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { Button, Container, Form, Modal } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Button, Container, Form } from "react-bootstrap";
 import styles from "@/styles/itemsForm.module.css";
 import currencyFormatter from "@/helpers/currencyFormatter";
 import SplitModal from "./splitModal";
@@ -13,10 +13,16 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
     };
 
     const [item, setItem] = useState(emptyItem);
-    const [allItems, setAllItems] = useState([]);
     const [split, setSplit] = useState(false);
     const [splitDisabled, setSplitDisabled] = useState(true);
-    let remainingTotal = useRef(bill.subTotal);
+    const [allHaveItems, setAllHaveItems] = useState(false);
+    const [remainingTotal, setRemainingTotal] = useState(bill.subTotal);
+
+    useEffect(() => {
+        if (allHaveItems && remainingTotal === 0)
+            setSplitDisabled(false);
+
+    }, [allHaveItems, remainingTotal]);
 
     const handleInput = (e) => {
         const input = e.target.value;
@@ -36,43 +42,50 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
     const enterItems = (e) => {
         e.preventDefault();
 
-        remainingTotal.current = remainingTotal.current - item.price;
+        if (remainingTotal - item.price < 0) {
+            alert("There can't be a negative remaining balance!");
+            return;
+        }
+
+        if (allHaveItems === false && remainingTotal === item.price) {
+            alert("There must be a remaining balance for the other people's items");
+            return;
+        }
+
+        setRemainingTotal(remainingTotal - item.price);
 
         let maxID = 0;
-        if (allItems.length > 0)
-            maxID = Math.max(...allItems.map(item => item.id));
-
+        if (bill.items.length > 0)
+            maxID = Math.max(...bill.items.map(item => item.id));
         item.id = maxID + 1;
-        setAllItems([...allItems, item]);
+
         setBill({...bill, 
             items: [...bill.items, item]
         });
+
         bill.people.map(person => {
             if (person.name === item.person) {
                 person.items = [...person.items, item]
             }
         });
+        
         setItem(emptyItem);
 
-        let allHaveItems = false;
         for (let person of bill.people) {
             if (person.name === "Shared") {
                 if (person.items.length > 0) {
-                    allHaveItems = true;
+                    setAllHaveItems(true);
                     break;
                 }
             } else {
                 if (person.items.length > 0) {
-                    allHaveItems = true;
+                    setAllHaveItems(true);
                 } else {
-                    allHaveItems = false;
+                    setAllHaveItems(false);
                     break;
                 }
             }
         };
-
-        if (allHaveItems && remainingTotal.current === 0)
-            setSplitDisabled(false);
     };
 
     const splitItems = () => {
@@ -137,9 +150,9 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
             </Form>
 
             <Container className={styles.itemsAdded}>
-                <h5 className="text-center mt-2">Items Ordered: {currencyFormatter.format(remainingTotal.current)} Remaining</h5>
+                <h5 className="text-center mt-2">Items Ordered: {currencyFormatter.format(remainingTotal)} Remaining</h5>
                 <ul>
-                {allItems.map(item => (
+                {bill.items.map(item => (
                     <li key={item.id} className={styles.list}>{item.person} ordered {item.name} for {currencyFormatter.format(item.price)}</li>
                 ))}
                 </ul>

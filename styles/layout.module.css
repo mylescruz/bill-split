@@ -17,10 +17,3 @@
     color: var(--primary-green);
     border-radius: 24px;
 }
-
-#homeBtn:active {
-    background-color: var(--primary-green);
-    color: var(--primary-white);
-    border: 1px solid var(--primary-white);
-    font-weight: bold;
-}
