@@ -28,7 +28,6 @@ const SplitModal = ({ bill, setBill, emptyBill, split, setSplit, setShowItems, s
                     (person.name === "Shared" ? 
                         (person.items.length > 0 &&
                             <div key={person.id}>
-                                <p>{person.items.length}</p>   
                                 <h6 className="text-decoration-underline mb-0 mt-2">{person.name}</h6>
                                 <p className="my-0">
                                     Ordered: {person.items.map(item => (<span key={item.id}>{item.name} ({currencyFormatter.format(item.price)}) </span> ))}

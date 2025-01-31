@@ -51,8 +51,32 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
         });
         setItem(emptyItem);
 
-        if (bill.items.length >= 1)
+        let allHaveItems = false;
+        console.log(bill.people);
+        for (let person of bill.people) {
+            console.log("allHaveItems: ", allHaveItems);
+            console.log("person: ", person);
+
+            if (person.name === "Shared") {
+                if (person.items.length > 0) {
+                    allHaveItems = true;
+                    break;
+                }
+            } else {
+                if (person.items.length > 0) {
+                    allHaveItems = true;
+                } else {
+                    allHaveItems = false;
+                    break;
+                }
+            }
+        };
+
+        if (allHaveItems)
             setSplitDisabled(false);
+
+        // if (bill.people.length >= 1)
+        //     setSplitDisabled(false);
     };
 
     const splitItems = () => {
