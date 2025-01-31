@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button, Container, Form, Modal } from "react-bootstrap";
 import styles from "@/styles/itemsForm.module.css";
 import currencyFormatter from "@/helpers/currencyFormatter";
@@ -16,6 +16,7 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
     const [allItems, setAllItems] = useState([]);
     const [split, setSplit] = useState(false);
     const [splitDisabled, setSplitDisabled] = useState(true);
+    let remainingTotal = useRef(bill.subTotal);
 
     const handleInput = (e) => {
         const input = e.target.value;
@@ -35,6 +36,8 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
     const enterItems = (e) => {
         e.preventDefault();
 
+        remainingTotal.current = remainingTotal.current - item.price;
+
         let maxID = 0;
         if (allItems.length > 0)
             maxID = Math.max(...allItems.map(item => item.id));
@@ -52,11 +55,7 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
         setItem(emptyItem);
 
         let allHaveItems = false;
-        console.log(bill.people);
         for (let person of bill.people) {
-            console.log("allHaveItems: ", allHaveItems);
-            console.log("person: ", person);
-
             if (person.name === "Shared") {
                 if (person.items.length > 0) {
                     allHaveItems = true;
@@ -72,11 +71,8 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
             }
         };
 
-        if (allHaveItems)
+        if (allHaveItems && remainingTotal.current === 0)
             setSplitDisabled(false);
-
-        // if (bill.people.length >= 1)
-        //     setSplitDisabled(false);
     };
 
     const splitItems = () => {
@@ -141,7 +137,7 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
             </Form>
 
             <Container className={styles.itemsAdded}>
-                <h5 className="text-center mt-2">Items Ordered</h5>
+                <h5 className="text-center mt-2">Items Ordered: {currencyFormatter.format(remainingTotal.current)} Remaining</h5>
                 <ul>
                 {allItems.map(item => (
                     <li key={item.id} className={styles.list}>{item.person} ordered {item.name} for {currencyFormatter.format(item.price)}</li>

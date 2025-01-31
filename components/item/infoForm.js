@@ -43,8 +43,8 @@ const InfoForm = ({ bill, setBill, emptyBill, setShowInfo, setShowPeople }) => {
     const enterInfo = (e) => {
         e.preventDefault();
 
-        const subTotal = billDetails.total - billDetails.tax;
-        const taxPercentage = billDetails.tax / subTotal;
+        billDetails.subTotal = billDetails.total - billDetails.tax;
+        const taxPercentage = billDetails.tax / billDetails.subTotal;
 
         if (taxPercentage > MAX_SALES_TAX_PERCENTAGE) {
             window.alert('Invalid total and/or tax amounts');
@@ -53,15 +53,13 @@ const InfoForm = ({ bill, setBill, emptyBill, setShowInfo, setShowPeople }) => {
         billDetails.taxPercentage = taxPercentage;
         
         if (!customTip) {
-            billDetails.tip = subTotal * billDetails.tipPercentage;
+            billDetails.tip = billDetails.subTotal * billDetails.tipPercentage;
         } else {
             billDetails.customTip = true;
         }
 
         billDetails.totalWithTip = billDetails.total + billDetails.tip;
         billDetails.splitAmount = billDetails.totalWithTip / billDetails.people;
-
-        console.log(bill);
 
         setBill(billDetails);
         setBillDetails(emptyBill);

@@ -9,6 +9,7 @@ const ItemLayout = () => {
     const itemText = "Enter the items ordered";
 
     const emptyBill = {
+        subTotal: 0,
         total: "",
         tax: "",
         taxPercentage: 0,
