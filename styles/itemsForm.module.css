@@ -13,6 +13,11 @@
     padding: 0.5em;
 }
 
+#addItemBtn:disabled {
+    background-color: gray;
+    border: 1px solid var(--primary-white);
+}
+
 #itemsSplitBtn:disabled {
     background-color: gray;
     border: 1px solid var(--primary-white);

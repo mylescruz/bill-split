@@ -17,9 +17,10 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
     const [splitDisabled, setSplitDisabled] = useState(true);
     const [allHaveItems, setAllHaveItems] = useState(false);
     const [remainingTotal, setRemainingTotal] = useState(bill.subTotal);
+    const [remainingDiners, setRemainingDiners] = useState(bill.people.length - 1);
 
     useEffect(() => {
-        if (allHaveItems && remainingTotal === 0)
+        if (allHaveItems && parseFloat(remainingTotal) === 0)
             setSplitDisabled(false);
 
     }, [allHaveItems, remainingTotal]);
@@ -47,12 +48,13 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
             return;
         }
 
-        if (allHaveItems === false && remainingTotal === item.price) {
+        if (remainingDiners > 1 && parseFloat(remainingTotal) === item.price && allHaveItems === false) {
             alert("There must be a remaining balance for the other people's items");
             return;
         }
 
-        setRemainingTotal(remainingTotal - item.price);
+        const remaining = parseFloat(remainingTotal).toFixed(2) - parseFloat(item.price).toFixed(2);
+        setRemainingTotal(remaining.toFixed(2));
 
         let maxID = 0;
         if (bill.items.length > 0)
@@ -86,6 +88,8 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
                 }
             }
         };
+
+        setRemainingDiners(remainingDiners - 1);
     };
 
     const splitItems = () => {
@@ -145,7 +149,7 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="form-input text-center my-2">
-                    <Button className="green-button" id={styles.addItemBtn} type="submit">Add</Button>
+                    <Button className="green-button" id={styles.addItemBtn} type="submit" disabled={!splitDisabled}>Add</Button>
                 </Form.Group>
             </Form>
 
