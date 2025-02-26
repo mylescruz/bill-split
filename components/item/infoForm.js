@@ -46,6 +46,7 @@ const InfoForm = ({ bill, emptyBill, setShowInfo, setShowPeople }) => {
         const subTotal = billDetails.total - billDetails.tax;
         billDetails.subTotal = subTotal;
 
+        // If the remaining total was editted in another screen, keep that current remaining total
         if (bill.current.remainingTotal === "")
             billDetails.remainingTotal = parseFloat(subTotal);
         else
@@ -53,12 +54,14 @@ const InfoForm = ({ bill, emptyBill, setShowInfo, setShowPeople }) => {
 
         const taxPercentage = billDetails.tax / billDetails.subTotal;
 
+        // The calculated tax percentage should not be greater than the max sales tax percentage in the United States
         if (taxPercentage > MAX_SALES_TAX_PERCENTAGE) {
             window.alert('Invalid total and/or tax amounts');
             return;
         }
         billDetails.taxPercentage = taxPercentage;
         
+        // If the user enters a custom tip, set the flag
         if (!customTip) {
             const tip = billDetails.subTotal * billDetails.tipPercentage;
             billDetails.tip = parseFloat(tip.toFixed(2));

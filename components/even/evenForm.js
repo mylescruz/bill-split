@@ -39,9 +39,11 @@ const EvenForm = ({ emptyBill, openSplitModal }) => {
     const SplitBill = (e) => {
         e.preventDefault();
 
+        // Calculate the subtotal, tax, tip and total
         const subTotal = billDetails.total - billDetails.tax;
         const taxPercentage = billDetails.tax / subTotal;
 
+        // The calculated tax percentage should not be greater than the max sales tax percentage in the United States
         if (taxPercentage > MAX_SALES_TAX_PERCENTAGE) {
             window.alert('Invalid total and/or tax amounts');
             return;

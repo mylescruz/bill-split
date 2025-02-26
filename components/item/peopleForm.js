@@ -18,6 +18,7 @@ const PeopleForm = ({ bill, setShowInfo, setShowPeople, setShowItems }) => {
     const [nextDisabled, setNextDisabled] = useState(bill.current.people.length < 2);
 
     useEffect(() => {
+        // Only allow the next button to be clicked if more than one person is added
         if (people.length > 2)
             setNextDisabled(false);
     }, [people]);
@@ -32,8 +33,8 @@ const PeopleForm = ({ bill, setShowInfo, setShowPeople, setShowItems }) => {
         let maxID = 0;
         if (people.length > 0)
             maxID = Math.max(...people.map(person => person.id));
-
         person.id = maxID + 1;
+
         setPeople([...people, person]);
 
         setPerson(emptyPerson);

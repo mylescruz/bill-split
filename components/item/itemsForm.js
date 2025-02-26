@@ -21,6 +21,7 @@ const ItemsForm = ({ bill, emptyBill, setShowPeople, setShowItems, setShowInfo }
     const [remainingDiners, setRemainingDiners] = useState(bill.current.people.length - 1);
 
     useEffect(() => {
+        // Only allow a split if all diners have an item and all the items' costs added up equal the subtotal
         if (allHaveItems && parseFloat(remainingTotal) === 0)
             setSplitDisabled(false);
 
@@ -44,16 +45,21 @@ const ItemsForm = ({ bill, emptyBill, setShowPeople, setShowItems, setShowInfo }
     const enterItems = (e) => {
         e.preventDefault();
 
+        // Don't allow an item to be added if the user added a value that is higher than the remaining total
         if (remainingTotal - item.price < 0) {
             alert("There can't be a negative remaining balance!");
             return;
         }
 
+        // Don't allow an item to be added if:
+        //    There are still diners remaining without an item
+        //    The user tries to enter a price that is equal to the remaining total  
         if (remainingDiners > 1 && parseFloat(remainingTotal) === item.price && allHaveItems === false) {
             alert("There must be a remaining balance for the other people's items");
             return;
         }
 
+        // Calculate the remaining subtotal from the items added
         const remaining = parseFloat(remainingTotal).toFixed(2) - parseFloat(item.price).toFixed(2);
         bill.current.remainingTotal = remaining.toFixed(2);
         setRemainingTotal(remaining.toFixed(2));
@@ -63,26 +69,30 @@ const ItemsForm = ({ bill, emptyBill, setShowPeople, setShowItems, setShowInfo }
             maxID = Math.max(...items.map(item => item.id));
         item.id = maxID + 1;
 
+        // Add items to the state object
         setItems([...items, item]);
 
+        // Add items to the ref object
         bill.current.items = [...bill.current.items, item];
 
+        // Add item to the person who ordered that item
         bill.current.people.map(person => {
             if (person.name === item.person) {
                 person.items = [...person.items, item]
             }
         });
-        
-        setItem(emptyItem);
 
+        // Check if all diners have an item
         for (let person of bill.current.people) {
             if (person.name === "Shared") {
+                // If a shared item is added, then all diners will have an item to pay for
                 if (person.items.length > 0) {
                     setAllHaveItems(true);
                     bill.current.allHaveItems = true;
                     break;
                 }
             } else {
+                // If each person has an item, then the allHaveItems flag is set
                 if (person.items.length > 0) {
                     setAllHaveItems(true);
                     bill.current.allHaveItems = true;
@@ -94,6 +104,7 @@ const ItemsForm = ({ bill, emptyBill, setShowPeople, setShowItems, setShowInfo }
             }
         };
 
+        setItem(emptyItem);
         setRemainingDiners(remainingDiners - 1);
     };
 
@@ -104,19 +115,23 @@ const ItemsForm = ({ bill, emptyBill, setShowPeople, setShowItems, setShowInfo }
         bill.current.people.map(person => {
             let subTotal = 0;
 
+            // Set the subtotal for each diner
             person.items.map(item => {
                 subTotal += item.price;
             });
 
             if (person.name === "Shared") {
+                // If there are shared items, split the total amount between all diners evenly
                 const numPeople = bill.current.people.length - 1;
                 person.subTotal = subTotal;
                 sharedSubTotal = person.subTotal / numPeople;
             } else {
+                // Calculate each diner's subtotal, tax, tip and total
                 person.subTotal = subTotal + sharedSubTotal;
                 person.tax = person.subTotal * bill.current.taxPercentage;
                 
                 if (bill.current.customTip) {
+                    // If there is a custom tip, split the tip based on their percentage of the total meal
                     const billSubTotal = bill.current.total - bill.current.tax;
                     const billPercentage = person.subTotal / billSubTotal;
                     person.tip = billPercentage * bill.current.tip;
