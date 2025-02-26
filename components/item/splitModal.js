@@ -3,9 +3,9 @@ import styles from "@/styles/splitModal.module.css";
 import Link from "next/link";
 import currencyFormatter from "@/helpers/currencyFormatter";
 
-const SplitModal = ({ bill, setBill, emptyBill, split, setSplit, setShowItems, setShowInfo }) => {
+const SplitModal = ({ bill, emptyBill, split, setSplit, setShowItems, setShowInfo }) => {
     const closeSplitModal = () => {
-        setBill(emptyBill);
+        bill.current = emptyBill;
         
         setSplit(false);
         setShowItems(false);
@@ -19,12 +19,12 @@ const SplitModal = ({ bill, setBill, emptyBill, split, setSplit, setShowItems, s
             </Modal.Header>
             <Modal.Body className={styles.modal}>
                 <h5 className="text-center mt-2">Bill Totals</h5>
-                <p className="my-0">Original Total: <span className="float-end">{currencyFormatter.format(bill.total)}</span></p>
-                <p className="my-0">Total Tip: <span className="float-end">{currencyFormatter.format(bill.tip)}</span></p>
-                <p className="my-0">Total including Tip: <span className="float-end">{currencyFormatter.format(bill.totalWithTip)}</span></p>
+                <p className="my-0">Original Total: <span className="float-end">{currencyFormatter.format(bill.current.total)}</span></p>
+                <p className="my-0">Total Tip: <span className="float-end">{currencyFormatter.format(bill.current.tip)}</span></p>
+                <p className="my-0">Total including Tip: <span className="float-end">{currencyFormatter.format(bill.current.totalWithTip)}</span></p>
 
                 <h5 className="text-center mt-2">Totals Per Person</h5>
-                {bill.people.map(person => (
+                {bill.current.people.map(person => (
                     (person.name === "Shared" ? 
                         (person.items.length > 0 &&
                             <div key={person.id}>
@@ -33,7 +33,7 @@ const SplitModal = ({ bill, setBill, emptyBill, split, setSplit, setShowItems, s
                                     Ordered: {person.items.map(item => (<span key={item.id}>{item.name} ({currencyFormatter.format(item.price)}) </span> ))}
                                 </p>
                                 <p className="my-0">SubTotal: <span className="float-end">{currencyFormatter.format(person.subTotal)}</span></p>
-                                <p className="my-0">Each Person&#39;s Share: <span className="float-end">{currencyFormatter.format(person.subTotal / (bill.people.length-1))}</span></p>
+                                <p className="my-0">Each Person&#39;s Share: <span className="float-end">{currencyFormatter.format(person.subTotal / (bill.current.people.length-1))}</span></p>
                             </div>
                         )
                         :

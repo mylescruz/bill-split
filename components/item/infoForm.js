@@ -3,8 +3,8 @@ import { Button, Form } from "react-bootstrap";
 import styles from "@/styles/infoForm.module.css";
 const MAX_SALES_TAX_PERCENTAGE = 0.125;
 
-const InfoForm = ({ bill, setBill, emptyBill, setShowInfo, setShowPeople }) => {    
-    const [billDetails, setBillDetails] = useState(bill);
+const InfoForm = ({ bill, emptyBill, setShowInfo, setShowPeople }) => {    
+    const [billDetails, setBillDetails] = useState(bill.current);
     const [customTip, setCustomTip] = useState(false);
 
     const handleInput = (e) => {
@@ -43,7 +43,14 @@ const InfoForm = ({ bill, setBill, emptyBill, setShowInfo, setShowPeople }) => {
     const enterInfo = (e) => {
         e.preventDefault();
 
-        billDetails.subTotal = billDetails.total - billDetails.tax;
+        const subTotal = billDetails.total - billDetails.tax;
+        billDetails.subTotal = subTotal;
+
+        if (bill.current.remainingTotal === "")
+            billDetails.remainingTotal = parseFloat(subTotal);
+        else
+            billDetails.remainingTotal = parseFloat(bill.current.remainingTotal);
+
         const taxPercentage = billDetails.tax / billDetails.subTotal;
 
         if (taxPercentage > MAX_SALES_TAX_PERCENTAGE) {
@@ -53,15 +60,16 @@ const InfoForm = ({ bill, setBill, emptyBill, setShowInfo, setShowPeople }) => {
         billDetails.taxPercentage = taxPercentage;
         
         if (!customTip) {
-            billDetails.tip = billDetails.subTotal * billDetails.tipPercentage;
+            const tip = billDetails.subTotal * billDetails.tipPercentage;
+            billDetails.tip = parseFloat(tip.toFixed(2));
         } else {
             billDetails.customTip = true;
         }
 
-        billDetails.totalWithTip = billDetails.total + billDetails.tip;
-        billDetails.splitAmount = billDetails.totalWithTip / billDetails.people;
+        const totalWithTip = billDetails.total + billDetails.tip;
+        billDetails.totalWithTip = parseFloat(totalWithTip.toFixed(2));
 
-        setBill(billDetails);
+        bill.current = billDetails;
         setBillDetails(emptyBill);
         setShowInfo(false);
         setShowPeople(true);

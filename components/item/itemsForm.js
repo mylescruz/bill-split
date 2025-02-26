@@ -4,20 +4,21 @@ import styles from "@/styles/itemsForm.module.css";
 import currencyFormatter from "@/helpers/currencyFormatter";
 import SplitModal from "./splitModal";
 
-const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setShowInfo }) => {   
+const ItemsForm = ({ bill, emptyBill, setShowPeople, setShowItems, setShowInfo }) => {   
     const emptyItem = {
         id: 0,
         name: "",
         price: "",
-        person: bill.people[0].name
+        person: bill.current.people[0].name
     };
 
     const [item, setItem] = useState(emptyItem);
+    const [items, setItems] = useState(bill.current.items);
     const [split, setSplit] = useState(false);
     const [splitDisabled, setSplitDisabled] = useState(true);
-    const [allHaveItems, setAllHaveItems] = useState(false);
-    const [remainingTotal, setRemainingTotal] = useState(bill.subTotal);
-    const [remainingDiners, setRemainingDiners] = useState(bill.people.length - 1);
+    const [allHaveItems, setAllHaveItems] = useState(bill.current.allHaveItems);
+    const [remainingTotal, setRemainingTotal] = useState(bill.current.remainingTotal);
+    const [remainingDiners, setRemainingDiners] = useState(bill.current.people.length - 1);
 
     useEffect(() => {
         if (allHaveItems && parseFloat(remainingTotal) === 0)
@@ -54,18 +55,19 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
         }
 
         const remaining = parseFloat(remainingTotal).toFixed(2) - parseFloat(item.price).toFixed(2);
+        bill.current.remainingTotal = remaining.toFixed(2);
         setRemainingTotal(remaining.toFixed(2));
 
         let maxID = 0;
-        if (bill.items.length > 0)
-            maxID = Math.max(...bill.items.map(item => item.id));
+        if (items.length > 0)
+            maxID = Math.max(...items.map(item => item.id));
         item.id = maxID + 1;
 
-        setBill({...bill, 
-            items: [...bill.items, item]
-        });
+        setItems([...items, item]);
 
-        bill.people.map(person => {
+        bill.current.items = [...bill.current.items, item];
+
+        bill.current.people.map(person => {
             if (person.name === item.person) {
                 person.items = [...person.items, item]
             }
@@ -73,17 +75,20 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
         
         setItem(emptyItem);
 
-        for (let person of bill.people) {
+        for (let person of bill.current.people) {
             if (person.name === "Shared") {
                 if (person.items.length > 0) {
                     setAllHaveItems(true);
+                    bill.current.allHaveItems = true;
                     break;
                 }
             } else {
                 if (person.items.length > 0) {
                     setAllHaveItems(true);
+                    bill.current.allHaveItems = true;
                 } else {
                     setAllHaveItems(false);
+                    bill.current.allHaveItems = false;
                     break;
                 }
             }
@@ -96,7 +101,7 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
         console.log(bill);
 
         let sharedSubTotal = 0;
-        bill.people.map(person => {
+        bill.current.people.map(person => {
             let subTotal = 0;
 
             person.items.map(item => {
@@ -104,19 +109,19 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
             });
 
             if (person.name === "Shared") {
-                const numPeople = bill.people.length - 1;
+                const numPeople = bill.current.people.length - 1;
                 person.subTotal = subTotal;
                 sharedSubTotal = person.subTotal / numPeople;
             } else {
                 person.subTotal = subTotal + sharedSubTotal;
-                person.tax = person.subTotal * bill.taxPercentage;
+                person.tax = person.subTotal * bill.current.taxPercentage;
                 
-                if (bill.customTip) {
-                    const billSubTotal = bill.total - bill.tax;
+                if (bill.current.customTip) {
+                    const billSubTotal = bill.current.total - bill.current.tax;
                     const billPercentage = person.subTotal / billSubTotal;
-                    person.tip = billPercentage * bill.tip;
+                    person.tip = billPercentage * bill.current.tip;
                 } else {
-                    person.tip = person.subTotal * bill.tipPercentage;
+                    person.tip = person.subTotal * bill.current.tipPercentage;
                 }
                 
                 person.total = person.subTotal + person.tax + person.tip;
@@ -143,7 +148,7 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
                 <Form.Group className="form-input">
                     <Form.Select id="person" className="h-100 w-75 mx-auto" value={item.person} onChange={handleInput} required>
                         <option disabled>Choose the person who ordered this</option>
-                        {bill.people.map(person => (
+                        {bill.current.people.map(person => (
                             <option key={person.id} value={person.name}>{person.name}</option>
                         ))}
                     </Form.Select>
@@ -156,7 +161,7 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
             <Container className={styles.itemsAdded}>
                 <h5 className="text-center mt-2">Items Ordered: {currencyFormatter.format(remainingTotal)} Remaining</h5>
                 <ul>
-                {bill.items.map(item => (
+                {items.map(item => (
                     <li key={item.id} className={styles.list}>{item.person} ordered {item.name} for {currencyFormatter.format(item.price)}</li>
                 ))}
                 </ul>
@@ -167,7 +172,7 @@ const ItemsForm = ({ bill, setBill, emptyBill, setShowPeople, setShowItems, setS
                 <Button className="green-button mx-4" id={styles.itemsSplitBtn} onClick={splitItems} disabled={splitDisabled}>Split</Button>
             </Container>
 
-            <SplitModal bill={bill} setBill={setBill} emptyBill={emptyBill} split={split} setSplit={setSplit} setShowItems={setShowItems} setShowInfo={setShowInfo} />
+            <SplitModal bill={bill} emptyBill={emptyBill} split={split} setSplit={setSplit} setShowItems={setShowItems} setShowInfo={setShowInfo} />
         </>
     );
 };

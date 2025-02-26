@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import styles from "@/styles/peopleForm.module.css";
 
-const PeopleForm = ({ bill, setBill, setShowInfo, setShowPeople, setShowItems }) => {
+const PeopleForm = ({ bill, setShowInfo, setShowPeople, setShowItems }) => {
     const emptyPerson = {
         id: 1,
         name: "",
@@ -14,12 +14,13 @@ const PeopleForm = ({ bill, setBill, setShowInfo, setShowPeople, setShowItems })
     };
 
     const [person, setPerson] = useState(emptyPerson);
-    const [nextDisabled, setNextDisabled] = useState(bill.people.length < 2);
+    const [people, setPeople] = useState(bill.current.people);
+    const [nextDisabled, setNextDisabled] = useState(bill.current.people.length < 2);
 
     useEffect(() => {
-        if (bill.people.length > 2)
+        if (people.length > 2)
             setNextDisabled(false);
-    }, [bill.people]);
+    }, [people]);
 
     const handleInput = (e) => {
         setPerson({...person, [e.target.id]: e.target.value})
@@ -29,16 +30,17 @@ const PeopleForm = ({ bill, setBill, setShowInfo, setShowPeople, setShowItems })
         e.preventDefault();
 
         let maxID = 0;
-        if (bill.people.length > 0)
-            maxID = Math.max(...bill.people.map(person => person.id));
+        if (people.length > 0)
+            maxID = Math.max(...people.map(person => person.id));
 
         person.id = maxID + 1;
-        setBill({...bill, people: [...bill.people, person]});
+        setPeople([...people, person]);
 
         setPerson(emptyPerson);
     };
 
     const nextScreen = () => {
+        bill.current.people = people;
         setShowPeople(false);
         setShowItems(true);
     };
@@ -64,7 +66,7 @@ const PeopleForm = ({ bill, setBill, setShowInfo, setShowPeople, setShowItems })
             <Container className={styles.peopleContainer}>
                 <h5 className="text-center mt-2">Added People</h5>
                 <ul>
-                {bill.people.map(person => (
+                {people.map(person => (
                     (person.name !== "Shared" && <li key={person.id} className={styles.list}>{person.name}</li>)
                 ))}
                 </ul>
