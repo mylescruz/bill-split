@@ -15,17 +15,11 @@ const EvenLayout = ({ setScreen }) => {
   };
 
   const [bill, setBill] = useState(emptyBill);
-  const [split, setSplit] = useState(false);
-
-  const openSplitModal = (billDetails) => {
-    setBill(billDetails);
-    setSplit(true);
-  };
 
   return (
     <Row className="d-flex flex-column mx-auto flex-md-row">
       <Col className="col-12 col-md-5">
-        <EvenForm emptyBill={emptyBill} openSplitModal={openSplitModal} />
+        <EvenForm emptyBill={emptyBill} setBill={setBill} />
       </Col>
       <Col className="d-none d-md-block col-md-2 text-center">
         <div className="vr" style={{ height: 500 }} />

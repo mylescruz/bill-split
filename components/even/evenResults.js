@@ -1,5 +1,5 @@
 import currencyFormatter from "@/helpers/currencyFormatter";
-import { Button } from "react-bootstrap";
+import { Button, Col, Form } from "react-bootstrap";
 
 const EvenResults = ({ bill, setBill, emptyBill, setScreen }) => {
   const backToHome = () => {
@@ -13,13 +13,51 @@ const EvenResults = ({ bill, setBill, emptyBill, setScreen }) => {
   return (
     <div className="d-flex flex-column">
       <h5>Bill split results</h5>
-      <div className="mt-3">
-        <p>Original Total: {currencyFormatter.format(bill.total)}</p>
-        <p>Total Tip: {currencyFormatter.format(bill.tip)}</p>
-        <p>
-          Total including Tip: {currencyFormatter.format(bill.totalWithTip)}
-        </p>
-        <p>Total Per Person: {currencyFormatter.format(bill.splitAmount)}</p>
+      <div>
+        <Col className="my-3">
+          <Form.Group controlId="total">
+            <Form.Label>Original Total</Form.Label>
+            <Form.Control
+              className="h-100"
+              type="text"
+              value={currencyFormatter.format(bill.total)}
+              disabled
+            />
+          </Form.Group>
+        </Col>
+        <Col className="my-3">
+          <Form.Group controlId="tip">
+            <Form.Label>Total Tip</Form.Label>
+            <Form.Control
+              className="h-100"
+              type="text"
+              value={currencyFormatter.format(bill.tip)}
+              disabled
+            />
+          </Form.Group>
+        </Col>
+        <Col className="my-3">
+          <Form.Group controlId="totalWithTip">
+            <Form.Label>Total Including Tip</Form.Label>
+            <Form.Control
+              className="h-100"
+              type="text"
+              value={currencyFormatter.format(bill.totalWithTip)}
+              disabled
+            />
+          </Form.Group>
+        </Col>
+        <Col className="my-3">
+          <Form.Group controlId="splitAmount">
+            <Form.Label>Total Per Person</Form.Label>
+            <Form.Control
+              className="h-100"
+              type="text"
+              value={currencyFormatter.format(bill.splitAmount)}
+              disabled
+            />
+          </Form.Group>
+        </Col>
       </div>
       <div className="d-flex flex-row justify-content-start">
         <Button className="green-button btn-sm mr-4" onClick={clearBill}>
