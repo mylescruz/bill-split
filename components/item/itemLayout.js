@@ -30,7 +30,6 @@ const ItemLayout = ({ setScreen }) => {
     remainingTotal: "",
   };
 
-  // const bill = useRef(emptyBill);
   const [bill, setBill] = useState(emptyBill);
   const [page, setPage] = useState("info");
   const [results, setResults] = useState(false);

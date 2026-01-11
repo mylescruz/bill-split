@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import currencyFormatter from "@/helpers/currencyFormatter";
+import dollarsToCents from "@/helpers/dollarsToCents";
+import addDollars from "@/helpers/addDollars";
+import subtractDollars from "@/helpers/subtractDollars";
+import centsToDollars from "@/helpers/centsToDollars";
 
 const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
   const emptyItem = {
@@ -29,7 +33,12 @@ const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
     const currentItemPrice = Number(item.price);
 
     // Don't allow an item to be added if the user added a value that is higher than the remaining total
-    if (bill.remainingTotal - currentItemPrice < 0) {
+    const remainingTotal = subtractDollars(
+      bill.remainingTotal,
+      currentItemPrice
+    );
+
+    if (remainingTotal < 0) {
       alert("There can't be a negative remaining balance!");
       return;
     }
@@ -45,9 +54,6 @@ const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
       alert("There must be a remaining balance for the other people's items");
       return;
     }
-
-    // Calculate the remaining subtotal from the items added
-    const remainingTotal = bill.remainingTotal - currentItemPrice;
 
     const finalItem = {
       id: item.name + item.person,
@@ -91,7 +97,7 @@ const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
     setBill({
       ...bill,
       remainingTotal: remainingTotal,
-      items: [...bill.items, item],
+      items: [...bill.items, finalItem],
       people: people,
       allHaveItems: allHaveItems,
       remainingDiners: bill.remainingDiners - 1,
@@ -101,38 +107,65 @@ const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
   };
 
   const splitItems = () => {
-    let sharedSubTotal = 0;
-    bill.people.map((person) => {
-      let subTotal = 0;
+    console.log(bill);
+    // Find the cost of shared food that will be split among all diners
+    const sharedPerson = bill.people.find((person) => person.name === "Shared");
 
-      // Set the subtotal for each diner
-      person.items.map((item) => {
-        subTotal += item.price;
-      });
+    const numPeople = bill.people.length - 1;
 
-      if (person.name === "Shared") {
-        // If there are shared items, split the total amount between all diners evenly
-        const numPeople = bill.people.length - 1;
-        person.subTotal = subTotal;
-        sharedSubTotal = person.subTotal / numPeople;
-      } else {
+    const sharedSubTotal = dollarsToCents(
+      sharedPerson.items.reduce(
+        (sum, current) => sum + centsToDollars(current.price),
+        0
+      )
+    );
+
+    const sharedAmount = sharedSubTotal / numPeople;
+
+    sharedPerson.subTotal = sharedSubTotal;
+
+    const people = bill.people.map((person) => {
+      if (person.name !== "Shared") {
         // Calculate each diner's subtotal, tax, tip and total
-        person.subTotal = subTotal + sharedSubTotal;
-        person.tax = person.subTotal * bill.taxPercentage;
+        const subtotal = dollarsToCents(
+          person.items.reduce(
+            (sum, current) => sum + centsToDollars(current.price),
+            0
+          )
+        );
 
+        const finalSubtotal = addDollars(subtotal, sharedAmount);
+
+        const tax = finalSubtotal * bill.taxPercentage;
+        // person.subTotal = subTotal + sharedAmount;
+        // person.tax = person.subTotal * bill.taxPercentage;
+
+        let tip = 0;
         if (bill.customTip) {
           // If there is a custom tip, split the tip based on their percentage of the total meal
-          const billSubTotal = bill.total - bill.tax;
-          const billPercentage = person.subTotal / billSubTotal;
-          person.tip = billPercentage * bill.tip;
+          const billSubTotal = subtractDollars(bill.total, bill.tax);
+          const billPercentage = finalSubtotal / billSubTotal;
+          tip = billPercentage * bill.tip;
         } else {
-          person.tip = person.subTotal * bill.tipPercentage;
+          tip = finalSubtotal * bill.tipPercentage;
         }
 
-        person.total = person.subTotal + person.tax + person.tip;
+        const total = addDollars(finalSubtotal, tax);
+        const finalTotal = addDollars(total, tip);
+
+        return {
+          ...person,
+          subTotal: finalSubtotal,
+          tax: tax,
+          tip: tip,
+          total: finalTotal,
+        };
+      } else {
+        return person;
       }
     });
 
+    setBill({ ...bill, people: people });
     setResults(true);
   };
 

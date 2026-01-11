@@ -1,5 +1,8 @@
 import { Button, Col, Form } from "react-bootstrap";
 import styles from "@/styles/infoForm.module.css";
+import dollarsToCents from "@/helpers/dollarsToCents";
+import addDollars from "@/helpers/addDollars";
+import subtractDollars from "@/helpers/subtractDollars";
 const MAX_SALES_TAX_PERCENTAGE = 0.125;
 
 const InfoForm = ({ bill, setBill, setPage }) => {
@@ -20,9 +23,11 @@ const InfoForm = ({ bill, setBill, setPage }) => {
   const enterInfo = (e) => {
     e.preventDefault();
 
-    const subTotal = Number(bill.total) - Number(bill.tax);
+    const total = Number(bill.total);
+    const tax = Number(bill.tax);
+    const subTotal = subtractDollars(total, tax);
 
-    const taxPercentage = Number(bill.tax) / subTotal;
+    const taxPercentage = tax / subTotal;
 
     // The calculated tax percentage should not be greater than the max sales tax percentage in the United States
     if (taxPercentage > MAX_SALES_TAX_PERCENTAGE) {
@@ -30,17 +35,15 @@ const InfoForm = ({ bill, setBill, setPage }) => {
       return;
     }
 
-    let tip = bill.tip;
+    const tip = bill.customTip
+      ? Number(bill.tip)
+      : subTotal * Number(bill.tipPercentage);
 
-    // If the user enters a custom tip, set the flag
-    if (!bill.customTip) {
-      tip = subTotal * Number(bill.tipPercentage);
-    }
-
-    const totalWithTip = Number(bill.total) + Number(tip);
+    const totalWithTip = addDollars(total, tip);
 
     setBill({
       ...bill,
+      total: total,
       subTotal: subTotal,
       taxPercentage: taxPercentage,
       tip: tip,
