@@ -125,11 +125,11 @@ const ItemsResults = ({ bill, emptyBill, setScreen, setPage }) => {
         </Col>
       </div>
       <div className="d-flex flex-row justify-content-between">
-        <Button className="green-button btn-sm" onClick={backToHome}>
-          Home
-        </Button>
         <Button className="green-button btn-sm" onClick={clearBill}>
           New Split
+        </Button>
+        <Button className="green-button btn-sm" onClick={backToHome}>
+          Home
         </Button>
       </div>
     </div>
