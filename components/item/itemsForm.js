@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import currencyFormatter from "@/helpers/currencyFormatter";
 
-const ItemsForm = ({ bill, setPage }) => {
+const ItemsForm = ({ bill, setPage, setResults }) => {
   const emptyItem = {
     id: 0,
     name: "",
@@ -144,6 +144,8 @@ const ItemsForm = ({ bill, setPage }) => {
         person.total = person.subTotal + person.tax + person.tip;
       }
     });
+
+    setResults(true);
   };
 
   const goBackToPeople = () => {

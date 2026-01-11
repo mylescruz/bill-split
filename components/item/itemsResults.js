@@ -1,7 +1,7 @@
 import currencyFormatter from "@/helpers/currencyFormatter";
 import { Button, Col, Form } from "react-bootstrap";
 
-const ItemsResults = ({ bill, emptyBill, setScreen, setPage }) => {
+const ItemsResults = ({ bill, emptyBill, setScreen, setPage, setResults }) => {
   const backToHome = () => {
     setScreen("none");
   };
@@ -10,6 +10,8 @@ const ItemsResults = ({ bill, emptyBill, setScreen, setPage }) => {
     bill.current = emptyBill;
 
     setPage("info");
+
+    setResults(false);
   };
 
   return (

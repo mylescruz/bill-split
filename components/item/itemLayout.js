@@ -33,39 +33,64 @@ const ItemLayout = ({ setScreen }) => {
 
   const bill = useRef(emptyBill);
   const [page, setPage] = useState("info");
+  const [results, setResults] = useState(false);
 
   return (
-    <Row className="d-flex flex-column mx-auto flex-md-row">
-      <Col className="col-12 col-md-5">
+    <div className="my-4">
+      <Row className="d-flex flex-column d-md-none mx-auto">
         {page === "info" && (
           <InfoForm bill={bill} emptyBill={emptyBill} setPage={setPage} />
         )}
 
         {page === "people" && <PeopleForm bill={bill} setPage={setPage} />}
-        {page === "items" && (
+        {page === "items" && !results && (
           <ItemsForm
             bill={bill}
             emptyBill={emptyBill}
             people={bill.people}
             setPage={setPage}
+            setResults={setResults}
           />
         )}
-      </Col>
-      <Col className="d-none d-md-block col-md-2 text-center">
-        <div className="vr" style={{ height: 500 }} />
-      </Col>
-      <Col className="d-md-none my-2 text-center">
-        <hr className="w-100" />
-      </Col>
-      <Col className="col-12 col-md-5">
-        <ItemsResults
-          bill={bill}
-          emptyBill={emptyBill}
-          setScreen={setScreen}
-          setPage={setPage}
-        />
-      </Col>
-    </Row>
+        {results && (
+          <ItemsResults
+            bill={bill}
+            emptyBill={emptyBill}
+            setScreen={setScreen}
+            setPage={setPage}
+            setResults={setResults}
+          />
+        )}
+      </Row>
+      <Row className="d-none d-md-flex flex-md-row mx-auto">
+        <Col className="col-5">
+          {page === "info" && (
+            <InfoForm bill={bill} emptyBill={emptyBill} setPage={setPage} />
+          )}
+          {page === "people" && <PeopleForm bill={bill} setPage={setPage} />}
+          {(page === "items" || results) && (
+            <ItemsForm
+              bill={bill}
+              emptyBill={emptyBill}
+              people={bill.people}
+              setPage={setPage}
+              setResults={setResults}
+            />
+          )}
+        </Col>
+        <Col className="col-2 text-center">
+          <div className="vr" style={{ height: 500 }} />
+        </Col>
+        <Col className="col-5">
+          <ItemsResults
+            bill={bill}
+            emptyBill={emptyBill}
+            setScreen={setScreen}
+            setPage={setPage}
+          />
+        </Col>
+      </Row>
+    </div>
   );
 };
 
