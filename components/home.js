@@ -18,8 +18,8 @@ const Home = () => {
     <>
       {screen === "none" && (
         <div>
-          <h5>How do you want to split your bill?</h5>
-          <Row className="my-4 d-flex flex-row col-12 col-md-5 col-lg-3">
+          <h5 className="text-center">How do you want to split your bill?</h5>
+          <Row className="my-4 d-flex flex-row col-12 col-md-5 col-lg-3 mx-auto">
             <Col className="col-12 my-2 text-center">
               <Button
                 className="w-100 green-button text-nowrap btn-lg"
