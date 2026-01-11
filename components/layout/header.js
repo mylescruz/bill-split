@@ -4,7 +4,7 @@ import styles from "@/styles/layout/header.module.css";
 export default function Header() {
   return (
     <Navbar className={styles.navbar}>
-      <Navbar.Brand href="/" className={`${styles.title} mx-auto`}>
+      <Navbar.Brand href="/" className={`${styles.title} mx-4`}>
         Bill Splitter
       </Navbar.Brand>
     </Navbar>

@@ -18,22 +18,19 @@ const Home = () => {
     <>
       {screen === "none" && (
         <div>
-          <h5>
-            Do you want to split your bill evenly among friends or by the items
-            ordered?
-          </h5>
-          <Row className="my-4 d-flex flex-row col-12 col-md-6">
-            <Col className="col-12 col-md-6">
+          <h5>How do you want to split your bill?</h5>
+          <Row className="my-4 d-flex flex-row col-12 col-md-5 col-lg-3">
+            <Col className="col-12 my-2 text-center">
               <Button
-                className="green-button text-nowrap btn-lg"
+                className="w-100 green-button text-nowrap btn-lg"
                 onClick={openEven}
               >
                 Evenly
               </Button>
             </Col>
-            <Col className="col-12 col-md-6">
+            <Col className="col-12 my-2">
               <Button
-                className="green-button text-nowrap btn-lg"
+                className="w-100 green-button text-nowrap btn-lg"
                 onClick={openItem}
               >
                 By Item
