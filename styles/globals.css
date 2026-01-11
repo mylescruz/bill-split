@@ -31,10 +31,6 @@ a {
   text-decoration: none;
 }
 
-.form-input {
-  margin: 0.5em 0.5em;
-}
-
 .green-button {
   background-color: var(--primary-green);
   color: var(--primary-white);
