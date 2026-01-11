@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import styles from "@/styles/itemsForm.module.css";
 import currencyFormatter from "@/helpers/currencyFormatter";
-import SplitModal from "./splitModal";
 
-const ItemsForm = ({ bill, emptyBill, setPage }) => {
+const ItemsForm = ({ bill, setPage }) => {
   const emptyItem = {
     id: 0,
     name: "",
@@ -14,7 +12,6 @@ const ItemsForm = ({ bill, emptyBill, setPage }) => {
 
   const [item, setItem] = useState(emptyItem);
   const [items, setItems] = useState(bill.current.items);
-  const [split, setSplit] = useState(false);
   const [splitDisabled, setSplitDisabled] = useState(true);
   const [allHaveItems, setAllHaveItems] = useState(bill.current.allHaveItems);
   const [remainingTotal, setRemainingTotal] = useState(
@@ -147,8 +144,6 @@ const ItemsForm = ({ bill, emptyBill, setPage }) => {
         person.total = person.subTotal + person.tax + person.tip;
       }
     });
-
-    setSplit(true);
   };
 
   const goBackToPeople = () => {
@@ -239,14 +234,6 @@ const ItemsForm = ({ bill, emptyBill, setPage }) => {
           Split
         </Button>
       </div>
-
-      <SplitModal
-        bill={bill}
-        emptyBill={emptyBill}
-        split={split}
-        setSplit={setSplit}
-        setPage={setPage}
-      />
     </>
   );
 };
