@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import styles from "@/styles/itemsForm.module.css";
 import currencyFormatter from "@/helpers/currencyFormatter";
 import SplitModal from "./splitModal";
@@ -159,50 +159,54 @@ const ItemsForm = ({ bill, emptyBill, setPage }) => {
     <>
       <h4>Enter the items ordered</h4>
       <Form onSubmit={enterItems}>
-        <Form.Group className="form-input">
-          <Form.Control
-            id="name"
-            className="h-100 w-75 mx-auto"
-            type="text"
-            placeholder="Enter the item"
-            value={item.name}
-            onChange={handleInput}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="form-input">
-          <Form.Control
-            id="price"
-            className="h-100 w-75 mx-auto"
-            type="number"
-            min="0.01"
-            step="0.01"
-            placeholder="Price"
-            value={item.price}
-            onChange={handleNumInput}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="form-input">
-          <Form.Select
-            id="person"
-            className="h-100 w-75 mx-auto"
-            value={item.person}
-            onChange={handleInput}
-            required
-          >
-            <option disabled>Choose the person who ordered this</option>
-            {bill.current.people.map((person) => (
-              <option key={person.id} value={person.name}>
-                {person.name}
-              </option>
-            ))}
-          </Form.Select>
-        </Form.Group>
-        <Form.Group className="form-input text-center my-2">
+        <Col className="my-3">
+          <Form.Group controlId="name">
+            <Form.Label>Enter an ordered food or drink</Form.Label>
+            <Form.Control
+              className="h-100"
+              type="text"
+              placeholder="Item"
+              value={item.name}
+              onChange={handleInput}
+              required
+            />
+          </Form.Group>
+        </Col>
+        <Col className="my-3">
+          <Form.Group controlId="price">
+            <Form.Label>Enter the cost of this item</Form.Label>
+            <Form.Control
+              className="h-100"
+              type="number"
+              min="0.01"
+              step="0.01"
+              placeholder="Price"
+              value={item.price}
+              onChange={handleNumInput}
+              required
+            />
+          </Form.Group>
+        </Col>
+        <Col className="my-3">
+          <Form.Group controlId="person">
+            <Form.Label>Choose the person who ordered this</Form.Label>
+            <Form.Select
+              className="h-100"
+              value={item.person}
+              onChange={handleInput}
+              required
+            >
+              {bill.current.people.map((person) => (
+                <option key={person.id} value={person.name}>
+                  {person.name}
+                </option>
+              ))}
+            </Form.Select>
+          </Form.Group>
+        </Col>
+        <Form.Group className="my-3">
           <Button
             className="green-button"
-            id={styles.addItemBtn}
             type="submit"
             disabled={!splitDisabled}
           >
@@ -211,37 +215,30 @@ const ItemsForm = ({ bill, emptyBill, setPage }) => {
         </Form.Group>
       </Form>
 
-      <Container className={styles.itemsAdded}>
-        <h5 className="text-center mt-2">
-          Items Ordered: {currencyFormatter(remainingTotal)} Remaining
-        </h5>
-        <ul>
+      <div className="mt-2">
+        <h5>Items Ordered: {currencyFormatter(remainingTotal)} Remaining</h5>
+        <Row className="d-flex flex-col">
           {items.map((item) => (
-            <li key={item.id} className={styles.list}>
+            <Col key={item.id} className="col-12">
               {item.person} ordered {item.name} for{" "}
               {currencyFormatter(item.price)}
-            </li>
+            </Col>
           ))}
-        </ul>
-      </Container>
+        </Row>
+      </div>
 
-      <Container className="text-center mt-3">
-        <Button
-          className="green-button mx-4"
-          id={styles.itemsBackBtn}
-          onClick={goBackToPeople}
-        >
+      <div className="d-flex flex-row justify-content-between mt-3">
+        <Button className="green-button" onClick={goBackToPeople}>
           Back
         </Button>
         <Button
-          className="green-button mx-4"
-          id={styles.itemsSplitBtn}
+          className="green-button"
           onClick={splitItems}
           disabled={splitDisabled}
         >
           Split
         </Button>
-      </Container>
+      </div>
 
       <SplitModal
         bill={bill}
