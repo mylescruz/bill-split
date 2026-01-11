@@ -8,13 +8,13 @@ const InfoForm = ({ bill, setBill, setPage }) => {
 
     if (e.target.id === "tipPercentage") {
       if (input === "Custom") {
-        setBill({ ...bill, customTip: true });
+        setBill({ ...bill, tipPercentage: input, customTip: true });
       } else {
-        setBill({ ...bill, customTip: false });
+        setBill({ ...bill, tipPercentage: input, customTip: false });
       }
+    } else {
+      setBill({ ...bill, [e.target.id]: input });
     }
-
-    setBill({ ...bill, [e.target.id]: e.target.value });
   };
 
   const enterInfo = (e) => {
@@ -96,16 +96,16 @@ const InfoForm = ({ bill, setBill, setPage }) => {
               required
             >
               <option disabled>Tip Percentage</option>
-              <option value="0.15">15%</option>
-              <option value="0.18">18%</option>
-              <option value="0.20">20%</option>
+              <option value={0.15}>15%</option>
+              <option value={0.18}>18%</option>
+              <option value={0.2}>20%</option>
               <option value="Custom">Custom/Gratuity</option>
             </Form.Select>
           </Form.Group>
         </Col>
         {bill.customTip && (
           <Col className="my-3">
-            <Form.Group controlId="customTip">
+            <Form.Group controlId="tip">
               <Form.Label>
                 What is the custom tip or gratuity amount?
               </Form.Label>
