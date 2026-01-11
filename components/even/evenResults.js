@@ -1,17 +1,18 @@
 import currencyFormatter from "@/helpers/currencyFormatter";
 import { Button, Col, Form } from "react-bootstrap";
 
-const EvenResults = ({ bill, setBill, emptyBill, setScreen }) => {
+const EvenResults = ({ bill, setBill, emptyBill, setScreen, setPage }) => {
   const backToHome = () => {
     setScreen("none");
   };
 
   const clearBill = () => {
     setBill(emptyBill);
+    setPage("info");
   };
 
   return (
-    <div className="d-flex flex-column">
+    <div className="d-flex flex-column mb-4">
       <h5>Bill split results</h5>
       <div>
         <Col className="my-3">
@@ -59,11 +60,11 @@ const EvenResults = ({ bill, setBill, emptyBill, setScreen }) => {
           </Form.Group>
         </Col>
       </div>
-      <div className="d-flex flex-row justify-content-start">
-        <Button className="green-button btn-sm mr-4" onClick={clearBill}>
+      <div className="d-flex flex-row justify-content-between">
+        <Button className="green-button btn-sm" onClick={clearBill}>
           New Split
         </Button>
-        <Button className="green-button btn-sm mx-4" onClick={backToHome}>
+        <Button className="green-button btn-sm" onClick={backToHome}>
           Home
         </Button>
       </div>

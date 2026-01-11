@@ -3,7 +3,7 @@ import { Button, Col, Form } from "react-bootstrap";
 import styles from "@/styles/evenForm.module.css";
 const MAX_SALES_TAX_PERCENTAGE = 0.125;
 
-const EvenForm = ({ emptyBill, setBill }) => {
+const EvenForm = ({ emptyBill, setBill, setPage }) => {
   const [billDetails, setBillDetails] = useState(emptyBill);
   const [customTip, setCustomTip] = useState(false);
 
@@ -51,10 +51,11 @@ const EvenForm = ({ emptyBill, setBill }) => {
     billDetails.splitAmount = billDetails.totalWithTip / billDetails.people;
 
     setBill(billDetails);
+    setPage("results");
   };
 
   return (
-    <div className="d-flex flex-column">
+    <div className="d-flex flex-column mb-4">
       <h5>Enter the bill&#39;s information</h5>
       <Form onSubmit={SplitBill}>
         <Col className="my-3">
