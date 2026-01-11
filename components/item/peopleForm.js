@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import styles from "@/styles/peopleForm.module.css";
 
 const PeopleForm = ({ bill, setPage }) => {
   const emptyPerson = {
@@ -69,48 +68,39 @@ const PeopleForm = ({ bill, setPage }) => {
             </Form.Group>
           </Col>
           <Col className="col-12 col-md-2">
-            <Button
-              className="btn-sm w-100"
-              id={styles.addPersonBtn}
-              type="submit"
-            >
+            <Button className="green-button btn-sm w-100" type="submit">
               Add
             </Button>
           </Col>
         </Row>
       </Form>
 
-      <Container className={styles.peopleContainer}>
-        <h5 className="text-center mt-2">Added People</h5>
-        <ul>
+      <div className="mt-2">
+        <h5>Added People</h5>
+        <Row className="d-flex flex-row">
           {people.map(
             (person) =>
               person.name !== "Shared" && (
-                <li key={person.id} className={styles.list}>
-                  {person.name}
-                </li>
+                <Col key={person.id} className="my-1 col-6">
+                  • {person.name}
+                </Col>
               )
           )}
-        </ul>
-      </Container>
+        </Row>
+      </div>
 
-      <Container className="text-center mt-3">
-        <Button
-          className="green-button mx-4"
-          id={styles.peopleBackBtn}
-          onClick={goBacktoInfo}
-        >
+      <div className="mt-4 d-flex flew-row justify-content-between">
+        <Button className="green-button" onClick={goBacktoInfo}>
           Back
         </Button>
         <Button
-          className="green-button mx-4"
-          id={styles.peopleNextBtn}
+          className="green-button"
           onClick={nextScreen}
           disabled={nextDisabled}
         >
           Next
         </Button>
-      </Container>
+      </div>
     </>
   );
 };
