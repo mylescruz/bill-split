@@ -1,13 +1,20 @@
 import currencyFormatter from "@/helpers/currencyFormatter";
 import { Button, Col, Form } from "react-bootstrap";
 
-const ItemsResults = ({ bill, emptyBill, setScreen, setPage, setResults }) => {
+const ItemsResults = ({
+  bill,
+  setBill,
+  emptyBill,
+  setScreen,
+  setPage,
+  setResults,
+}) => {
   const backToHome = () => {
     setScreen("none");
   };
 
   const clearBill = () => {
-    bill.current = emptyBill;
+    setBill(emptyBill);
 
     setPage("info");
 
@@ -24,7 +31,7 @@ const ItemsResults = ({ bill, emptyBill, setScreen, setPage, setResults }) => {
             <Form.Control
               className="h-100"
               type="text"
-              value={currencyFormatter(bill.current.total)}
+              value={currencyFormatter(bill.total)}
               disabled
             />
           </Form.Group>
@@ -35,7 +42,7 @@ const ItemsResults = ({ bill, emptyBill, setScreen, setPage, setResults }) => {
             <Form.Control
               className="h-100"
               type="text"
-              value={currencyFormatter(bill.current.tip)}
+              value={currencyFormatter(bill.tip)}
               disabled
             />
           </Form.Group>
@@ -46,14 +53,14 @@ const ItemsResults = ({ bill, emptyBill, setScreen, setPage, setResults }) => {
             <Form.Control
               className="h-100"
               type="text"
-              value={currencyFormatter(bill.current.totalWithTip)}
+              value={currencyFormatter(bill.totalWithTip)}
               disabled
             />
           </Form.Group>
         </Col>
         <Col className="my-3">
           <Form.Label>Totals Per Person</Form.Label>
-          {bill.current.people.map((person) =>
+          {bill.people.map((person) =>
             person.name === "Shared" ? (
               person.items.length > 0 && (
                 <div key={person.id}>
@@ -78,7 +85,7 @@ const ItemsResults = ({ bill, emptyBill, setScreen, setPage, setResults }) => {
                     Each Person&#39;s Share:{" "}
                     <span className="float-end">
                       {currencyFormatter(
-                        person.subTotal / (bill.current.people.length - 1)
+                        person.subTotal / (bill.people.length - 1)
                       )}
                     </span>
                   </p>

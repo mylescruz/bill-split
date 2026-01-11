@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 
-const PeopleForm = ({ bill, setPage }) => {
+const PeopleForm = ({ bill, setBill, setPage }) => {
   const emptyPerson = {
     id: 1,
     name: "",
@@ -13,15 +13,14 @@ const PeopleForm = ({ bill, setPage }) => {
   };
 
   const [person, setPerson] = useState(emptyPerson);
-  const [people, setPeople] = useState(bill.current.people);
-  const [nextDisabled, setNextDisabled] = useState(
-    bill.current.people.length < 2
-  );
+  const [nextDisabled, setNextDisabled] = useState(bill.people.length < 2);
 
   useEffect(() => {
     // Only allow the next button to be clicked if more than one person is added
-    if (people.length > 2) setNextDisabled(false);
-  }, [people]);
+    if (bill.people.length > 2) {
+      setNextDisabled(false);
+    }
+  }, [bill.people]);
 
   const handleInput = (e) => {
     setPerson({ ...person, [e.target.id]: e.target.value });
@@ -31,17 +30,16 @@ const PeopleForm = ({ bill, setPage }) => {
     e.preventDefault();
 
     let maxID = 0;
-    if (people.length > 0)
-      maxID = Math.max(...people.map((person) => person.id));
+    if (bill.people.length > 0)
+      maxID = Math.max(...bill.people.map((person) => person.id));
     person.id = maxID + 1;
 
-    setPeople([...people, person]);
+    setBill({ ...bill, people: [...bill.people, person] });
 
     setPerson(emptyPerson);
   };
 
   const nextScreen = () => {
-    bill.current.people = people;
     setPage("items");
   };
 
@@ -78,7 +76,7 @@ const PeopleForm = ({ bill, setPage }) => {
       <div className="mt-2">
         <h5>Added People</h5>
         <Row className="d-flex flex-row">
-          {people.map(
+          {bill.people.map(
             (person) =>
               person.name !== "Shared" && (
                 <Col key={person.id} className="my-1 col-6">

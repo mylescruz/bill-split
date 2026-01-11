@@ -1,73 +1,71 @@
-import { useState } from "react";
 import { Button, Col, Form } from "react-bootstrap";
 import styles from "@/styles/infoForm.module.css";
 const MAX_SALES_TAX_PERCENTAGE = 0.125;
 
-const InfoForm = ({ bill, emptyBill, setPage }) => {
-  const [billDetails, setBillDetails] = useState(bill.current);
-  const [customTip, setCustomTip] = useState(false);
-
+const InfoForm = ({ bill, setBill, setPage }) => {
   const handleInput = (e) => {
     const input = e.target.value;
 
     if (input === "Custom") {
-      setBillDetails({ ...billDetails, customTip: true });
-      setCustomTip(true);
+      setBill({ ...bill, customTip: true });
     } else {
-      setBillDetails({ ...billDetails, customTip: false });
-      setCustomTip(false);
+      setBill({ ...bill, customTip: false });
     }
 
-    setBillDetails({ ...billDetails, [e.target.id]: e.target.value });
+    setBill({ ...bill, [e.target.id]: e.target.value });
   };
 
   const handleNumInput = (e) => {
     const input = e.target.value;
 
-    if (input == "") setBillDetails({ ...billDetails, [e.target.id]: input });
-    else setBillDetails({ ...billDetails, [e.target.id]: parseFloat(input) });
+    if (input == "") {
+      setBill({ ...bill, [e.target.id]: input });
+    } else {
+      setBill({ ...bill, [e.target.id]: parseFloat(input) });
+    }
   };
 
   const handleCustomTip = (e) => {
     const input = e.target.value;
 
-    if (input == "") setBillDetails({ ...billDetails, tip: input });
-    else setBillDetails({ ...billDetails, tip: parseFloat(input) });
+    if (input == "") {
+      setBill({ ...bill, tip: input });
+    } else {
+      setBill({ ...bill, tip: parseFloat(input) });
+    }
   };
 
   const enterInfo = (e) => {
     e.preventDefault();
 
-    const subTotal = billDetails.total - billDetails.tax;
-    billDetails.subTotal = subTotal;
+    const subTotal = bill.total - bill.tax;
 
-    // If the remaining total was editted in another screen, keep that current remaining total
-    if (bill.current.remainingTotal === "")
-      billDetails.remainingTotal = parseFloat(subTotal);
-    else billDetails.remainingTotal = parseFloat(bill.current.remainingTotal);
-
-    const taxPercentage = billDetails.tax / billDetails.subTotal;
+    const taxPercentage = bill.tax / subTotal;
 
     // The calculated tax percentage should not be greater than the max sales tax percentage in the United States
     if (taxPercentage > MAX_SALES_TAX_PERCENTAGE) {
       window.alert("Invalid total and/or tax amounts");
       return;
     }
-    billDetails.taxPercentage = taxPercentage;
+
+    let tip = bill.tip;
 
     // If the user enters a custom tip, set the flag
-    if (!customTip) {
-      const tip = billDetails.subTotal * billDetails.tipPercentage;
-      billDetails.tip = parseFloat(tip.toFixed(2));
-    } else {
-      billDetails.customTip = true;
+    if (!bill.customTip) {
+      tip = parseFloat(subTotal * bill.tipPercentage);
     }
 
-    const totalWithTip = billDetails.total + billDetails.tip;
-    billDetails.totalWithTip = parseFloat(totalWithTip.toFixed(2));
+    const totalWithTip = parseFloat(bill.total + tip);
 
-    bill.current = billDetails;
-    setBillDetails(emptyBill);
+    setBill({
+      ...bill,
+      subTotal: subTotal,
+      taxPercentage: taxPercentage,
+      tip: tip,
+      totalWithTip: totalWithTip,
+      remainingTotal: subTotal,
+    });
+
     setPage("people");
   };
 
@@ -84,7 +82,7 @@ const InfoForm = ({ bill, emptyBill, setPage }) => {
               min="0.01"
               step="0.01"
               placeholder="Total"
-              value={billDetails.total}
+              value={bill.total}
               onChange={handleNumInput}
               required
             />
@@ -99,7 +97,7 @@ const InfoForm = ({ bill, emptyBill, setPage }) => {
               min="0.01"
               step="0.01"
               placeholder="Tax"
-              value={billDetails.tax}
+              value={bill.tax}
               onChange={handleNumInput}
               required
             />
@@ -111,7 +109,7 @@ const InfoForm = ({ bill, emptyBill, setPage }) => {
             <Form.Select
               className="h-100"
               placeholder="Tip"
-              value={billDetails.tipPercentage}
+              value={bill.tipPercentage}
               onChange={handleInput}
               required
             >
@@ -123,7 +121,7 @@ const InfoForm = ({ bill, emptyBill, setPage }) => {
             </Form.Select>
           </Form.Group>
         </Col>
-        {customTip && (
+        {bill.customTip && (
           <Col className="my-3">
             <Form.Group controlId="customTip">
               <Form.Label>
@@ -135,7 +133,7 @@ const InfoForm = ({ bill, emptyBill, setPage }) => {
                 min="0.01"
                 step="0.01"
                 placeholder="Tip/Gratuity ($)"
-                value={billDetails.tip}
+                value={bill.tip}
                 onChange={handleCustomTip}
                 required
               />
