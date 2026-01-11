@@ -1,0 +1,11 @@
+.title {
+  color: var(--primary-white);
+  text-align: center;
+  margin: 1em 0em;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.title:hover {
+  color: var(--background);
+}

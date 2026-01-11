@@ -1,19 +1,7 @@
-.title {
-    color: var(--primary-white);
-    text-align: center;
-    margin: 1em 0em;
-    font-size: 2em;
-    font-weight: bold;
-}
-
-.title:hover {
-    color: var(--primary-white);
-}
-
 .container {
-    margin: 1em 0em;
-    padding: 1em 0em;
-    background-color: var(--primary-white);
-    color: var(--primary-green);
-    border-radius: 24px;
+  margin: 1em 0em;
+  padding: 1em 0em;
+  background-color: var(--primary-white);
+  color: var(--primary-green);
+  border-radius: 24px;
 }
