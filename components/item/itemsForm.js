@@ -20,28 +20,16 @@ const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
   }, [bill.allHaveItems, bill.remainingTotal]);
 
   const handleInput = (e) => {
-    const input = e.target.value;
-
-    setItem({ ...item, [e.target.id]: input });
-  };
-
-  const handleNumInput = (e) => {
-    const input = e.target.value;
-
-    if (input == "") {
-      setItem({ ...item, [e.target.id]: input });
-    } else {
-      setItem({ ...item, [e.target.id]: parseFloat(input) });
-    }
+    setItem({ ...item, [e.target.id]: e.target.value });
   };
 
   const enterItems = (e) => {
     e.preventDefault();
 
-    console.log(item);
+    const currentItemPrice = Number(item.price);
 
     // Don't allow an item to be added if the user added a value that is higher than the remaining total
-    if (bill.remainingTotal - item.price < 0) {
+    if (bill.remainingTotal - currentItemPrice < 0) {
       alert("There can't be a negative remaining balance!");
       return;
     }
@@ -51,7 +39,7 @@ const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
     //    The user tries to enter a price that is equal to the remaining total
     if (
       bill.remainingDiners > 1 &&
-      parseFloat(bill.remainingTotal) === item.price &&
+      bill.remainingTotal === currentItemPrice &&
       bill.allHaveItems === false
     ) {
       alert("There must be a remaining balance for the other people's items");
@@ -59,18 +47,21 @@ const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
     }
 
     // Calculate the remaining subtotal from the items added
-    const remainingTotal =
-      parseFloat(bill.remainingTotal).toFixed(2) -
-      parseFloat(item.price).toFixed(2);
+    const remainingTotal = bill.remainingTotal - currentItemPrice;
 
-    item.id = item.name + item.person;
+    const finalItem = {
+      id: item.name + item.person,
+      name: item.name,
+      price: currentItemPrice,
+      person: item.person,
+    };
 
     // Add item to the person who ordered that item
     const people = bill.people.map((person) => {
-      if (person.name === item.person) {
+      if (person.name === finalItem.person) {
         return {
           ...person,
-          items: [...person.items, item],
+          items: [...person.items, finalItem],
         };
       } else {
         return person;
@@ -176,7 +167,7 @@ const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
               step="0.01"
               placeholder="Price"
               value={item.price}
-              onChange={handleNumInput}
+              onChange={handleInput}
               required
             />
           </Form.Group>
