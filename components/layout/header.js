@@ -3,7 +3,7 @@ import styles from "@/styles/layout/header.module.css";
 
 export default function Header() {
   return (
-    <Navbar>
+    <Navbar className={styles.navbar}>
       <Navbar.Brand href="/" className={`${styles.title} mx-auto`}>
         Bill Splitter
       </Navbar.Brand>

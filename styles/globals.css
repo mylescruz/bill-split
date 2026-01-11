@@ -1,8 +1,8 @@
 :root {
-  --background: #ffffff;
+  --background: #f5f5f5;
   --foreground: #171717;
-  --primary-white: #ECE7E2;
-  --primary-green: #4A7766;
+  --primary-white: #ece7e2;
+  --primary-green: #4a7766;
 }
 
 html,
@@ -13,7 +13,7 @@ body {
 
 body {
   color: var(--primary-white);
-  background: var(--primary-green);
+  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -64,32 +64,4 @@ a {
 
 #disabled-button {
   background-color: gray;
-}
-
-/* X-Small Device */
-@media (max-width: 576px) {
-  .content {
-      width: 75%;   
-  }
-}
-
-/* Small Device */
-@media (min-width: 576px) and (max-width: 767.99px) {
-  .content {
-      width: 50%;   
-  }
-}
-
-/* Medium-Large Devices */
-@media (min-width: 768px) and (max-width: 1199.99px) {
-  .content {
-      width: 50%;   
-  }
-}
-
-/* XL Device */
-@media (min-width: 1200px) {
-  .content {
-      width: 50%;   
-  }
 }

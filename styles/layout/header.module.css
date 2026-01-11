@@ -1,7 +1,11 @@
+.navbar {
+  background-color: var(--primary-green);
+  min-height: 15vh;
+}
+
 .title {
   color: var(--primary-white);
   text-align: center;
-  margin: 1em 0em;
   font-size: 2em;
   font-weight: bold;
 }
