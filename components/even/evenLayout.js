@@ -28,7 +28,12 @@ const EvenLayout = ({ setScreen }) => {
         <hr className="w-100" />
       </Col>
       <Col className="col-12 col-md-5">
-        <EvenResults bill={bill} setBill={setBill} setScreen={setScreen} />
+        <EvenResults
+          bill={bill}
+          setBill={setBill}
+          emptyBill={emptyBill}
+          setScreen={setScreen}
+        />
       </Col>
     </Row>
   );

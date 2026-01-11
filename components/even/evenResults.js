@@ -20,7 +20,7 @@ const EvenResults = ({ bill, setBill, emptyBill, setScreen }) => {
             <Form.Control
               className="h-100"
               type="text"
-              value={currencyFormatter.format(bill.total)}
+              value={currencyFormatter(bill.total)}
               disabled
             />
           </Form.Group>
@@ -31,7 +31,7 @@ const EvenResults = ({ bill, setBill, emptyBill, setScreen }) => {
             <Form.Control
               className="h-100"
               type="text"
-              value={currencyFormatter.format(bill.tip)}
+              value={currencyFormatter(bill.tip)}
               disabled
             />
           </Form.Group>
@@ -42,7 +42,7 @@ const EvenResults = ({ bill, setBill, emptyBill, setScreen }) => {
             <Form.Control
               className="h-100"
               type="text"
-              value={currencyFormatter.format(bill.totalWithTip)}
+              value={currencyFormatter(bill.totalWithTip)}
               disabled
             />
           </Form.Group>
@@ -53,7 +53,7 @@ const EvenResults = ({ bill, setBill, emptyBill, setScreen }) => {
             <Form.Control
               className="h-100"
               type="text"
-              value={currencyFormatter.format(bill.splitAmount)}
+              value={currencyFormatter(bill.splitAmount)}
               disabled
             />
           </Form.Group>
