@@ -19,27 +19,6 @@ const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
       setSplitDisabled(false);
   }, [bill.allHaveItems, bill.remainingTotal]);
 
-  // Check if all diners have an item
-  useEffect(() => {
-    for (let person of bill.people) {
-      if (person.name === "Shared") {
-        // If a shared item is added, then all diners will have an item to pay for
-        if (person.items.length > 0) {
-          setBill({ ...bill, allHaveItems: true });
-          break;
-        }
-      } else {
-        // If each person has an item, then the allHaveItems flag is set
-        if (person.items.length > 0) {
-          setBill({ ...bill, allHaveItems: true });
-        } else {
-          setBill({ ...bill, allHaveItems: false });
-          break;
-        }
-      }
-    }
-  }, [bill.people, bill, setBill]);
-
   const handleInput = (e) => {
     const input = e.target.value;
 
@@ -58,6 +37,8 @@ const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
 
   const enterItems = (e) => {
     e.preventDefault();
+
+    console.log(item);
 
     // Don't allow an item to be added if the user added a value that is higher than the remaining total
     if (bill.remainingTotal - item.price < 0) {
@@ -96,11 +77,32 @@ const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
       }
     });
 
+    let allHaveItems = false;
+    // Check if all diners have an item
+    for (const person of people) {
+      if (person.name === "Shared") {
+        // If a shared item is added, then all diners will have an item to pay for
+        if (person.items.length > 0) {
+          allHaveItems = true;
+          break;
+        }
+      } else {
+        // If each person has an item, then the allHaveItems flag is set
+        if (person.items.length > 0) {
+          allHaveItems = true;
+        } else {
+          allHaveItems = false;
+          break;
+        }
+      }
+    }
+
     setBill({
       ...bill,
       remainingTotal: remainingTotal,
       items: [...bill.items, item],
       people: people,
+      allHaveItems: allHaveItems,
       remainingDiners: bill.remainingDiners - 1,
     });
 
