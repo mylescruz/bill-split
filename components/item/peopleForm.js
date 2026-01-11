@@ -54,26 +54,28 @@ const PeopleForm = ({ bill, setPage }) => {
     <>
       <h4>Enter the people dining</h4>
       <Form onSubmit={enterPeople}>
-        <Row className="d-flex justify-content-between align-items-center mx-auto w-75">
-          <Col className="px-0">
+        <Row>
+          <Col className="col-12 col-md-10">
             <Form.Group>
               <Form.Control
                 id="name"
-                className="h-100 w-100"
+                className="h-100 mb-2"
                 type="text"
-                placeholder="Enter each person"
+                placeholder="Person's name"
                 value={person.name}
                 onChange={handleInput}
                 required
               />
             </Form.Group>
           </Col>
-          <Col className="col-2 col-lg-1 px-0">
-            <Form.Group className="text-center my-2">
-              <Button className="btn-sm" id={styles.addPersonBtn} type="submit">
-                +
-              </Button>
-            </Form.Group>
+          <Col className="col-12 col-md-2">
+            <Button
+              className="btn-sm w-100"
+              id={styles.addPersonBtn}
+              type="submit"
+            >
+              Add
+            </Button>
           </Col>
         </Row>
       </Form>
