@@ -4,13 +4,7 @@ import styles from "@/styles/itemsForm.module.css";
 import currencyFormatter from "@/helpers/currencyFormatter";
 import SplitModal from "./splitModal";
 
-const ItemsForm = ({
-  bill,
-  emptyBill,
-  setShowPeople,
-  setShowItems,
-  setShowInfo,
-}) => {
+const ItemsForm = ({ bill, emptyBill, setPage }) => {
   const emptyItem = {
     id: 0,
     name: "",
@@ -158,12 +152,12 @@ const ItemsForm = ({
   };
 
   const goBackToPeople = () => {
-    setShowItems(false);
-    setShowPeople(true);
+    setPage("people");
   };
 
   return (
     <>
+      <h4>Enter the items ordered</h4>
       <Form onSubmit={enterItems}>
         <Form.Group className="form-input">
           <Form.Control
@@ -254,8 +248,7 @@ const ItemsForm = ({
         emptyBill={emptyBill}
         split={split}
         setSplit={setSplit}
-        setShowItems={setShowItems}
-        setShowInfo={setShowInfo}
+        setPage={setPage}
       />
     </>
   );

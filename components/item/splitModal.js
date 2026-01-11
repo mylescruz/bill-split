@@ -3,20 +3,11 @@ import styles from "@/styles/splitModal.module.css";
 import Link from "next/link";
 import currencyFormatter from "@/helpers/currencyFormatter";
 
-const SplitModal = ({
-  bill,
-  emptyBill,
-  split,
-  setSplit,
-  setShowItems,
-  setShowInfo,
-}) => {
+const SplitModal = ({ bill, emptyBill, split, setPage }) => {
   const closeSplitModal = () => {
     bill.current = emptyBill;
 
-    setSplit(false);
-    setShowItems(false);
-    setShowInfo(true);
+    setPage("info");
   };
 
   return (
@@ -125,8 +116,6 @@ const SplitModal = ({
         <Button
           className="white-button"
           id={styles.newSplitBtn}
-          as={Link}
-          href="/item"
           onClick={closeSplitModal}
         >
           New Split
