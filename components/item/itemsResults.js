@@ -63,7 +63,7 @@ const ItemsResults = ({
           {bill.people.map((person) =>
             person.name === "Shared" ? (
               person.items.length > 0 && (
-                <div key={person.id}>
+                <div key={person.name}>
                   <h6 className="text-decoration-underline mb-0 mt-2">
                     {person.name}
                   </h6>
@@ -92,7 +92,7 @@ const ItemsResults = ({
                 </div>
               )
             ) : (
-              <div key={person.id}>
+              <div key={person.name}>
                 <h6 className="text-decoration-underline mb-0 mt-2">
                   {person.name}
                 </h6>

@@ -14,7 +14,6 @@ const ItemLayout = ({ setScreen }) => {
     tipPercentage: 0.15,
     people: [
       {
-        id: 0,
         name: "Shared",
         items: [],
         subTotal: 0,

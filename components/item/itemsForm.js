@@ -4,7 +4,7 @@ import currencyFormatter from "@/helpers/currencyFormatter";
 
 const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
   const emptyItem = {
-    id: 0,
+    id: "",
     name: "",
     price: "",
     person: "Shared",
@@ -82,10 +82,7 @@ const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
       parseFloat(bill.remainingTotal).toFixed(2) -
       parseFloat(item.price).toFixed(2);
 
-    let maxID = 0;
-    if (bill.items.length > 0)
-      maxID = Math.max(...bill.items.map((item) => item.id));
-    item.id = maxID + 1;
+    item.id = item.name + item.person;
 
     // Add item to the person who ordered that item
     const people = bill.people.map((person) => {
@@ -111,8 +108,6 @@ const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
   };
 
   const splitItems = () => {
-    console.log(bill);
-
     let sharedSubTotal = 0;
     bill.people.map((person) => {
       let subTotal = 0;
@@ -194,7 +189,7 @@ const ItemsForm = ({ bill, setBill, setPage, setResults }) => {
               required
             >
               {bill.people.map((person) => (
-                <option key={person.id} value={person.name}>
+                <option key={person.name} value={person.name}>
                   {person.name}
                 </option>
               ))}

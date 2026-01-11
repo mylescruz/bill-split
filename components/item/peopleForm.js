@@ -29,11 +29,6 @@ const PeopleForm = ({ bill, setBill, setPage }) => {
   const enterPeople = (e) => {
     e.preventDefault();
 
-    let maxID = 0;
-    if (bill.people.length > 0)
-      maxID = Math.max(...bill.people.map((person) => person.id));
-    person.id = maxID + 1;
-
     setBill({ ...bill, people: [...bill.people, person] });
 
     setPerson(emptyPerson);
@@ -79,7 +74,7 @@ const PeopleForm = ({ bill, setBill, setPage }) => {
           {bill.people.map(
             (person) =>
               person.name !== "Shared" && (
-                <Col key={person.id} className="my-1 col-6">
+                <Col key={person.name} className="my-1 col-6">
                   • {person.name}
                 </Col>
               )
