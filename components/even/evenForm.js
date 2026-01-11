@@ -56,93 +56,102 @@ const EvenForm = ({ emptyBill, openSplitModal }) => {
   };
 
   return (
-    <Form onSubmit={SplitBill}>
-      <Col className="col-12 col-md-6 col-lg-4 my-3">
-        <Form.Group controlId="total">
-          <Form.Label>What was the bill&#39;s total cost?</Form.Label>
-          <Form.Control
-            className="h-100"
-            type="number"
-            min="0.01"
-            step="0.01"
-            placeholder="Total"
-            value={billDetails.total}
-            onChange={handleNumInput}
-            required
-          />
-        </Form.Group>
-      </Col>
-      <Col className="col-12 col-md-6 col-lg-4 my-3">
-        <Form.Group controlId="tax">
-          <Form.Label>What was the tax amount on the bill?</Form.Label>
-          <Form.Control
-            className="h-100"
-            type="number"
-            min="0.01"
-            step="0.01"
-            placeholder="Tax"
-            value={billDetails.tax}
-            onChange={handleNumInput}
-            required
-          />
-        </Form.Group>
-      </Col>
-      <Col className="col-12 col-md-6 col-lg-4 my-3">
-        <Form.Group controlId="tipPercentage">
-          <Form.Label>How much do you want to tip?</Form.Label>
-          <Form.Select
-            className="h-100"
-            placeholder="Tip"
-            value={billDetails.tipPercentage}
-            onChange={handleInput}
-            required
-          >
-            <option disabled>Tip Percentage</option>
-            <option value="0.15">15%</option>
-            <option value="0.18">18%</option>
-            <option value="0.20">20%</option>
-            <option value="Custom">Custom</option>
-          </Form.Select>
-        </Form.Group>
-      </Col>
-      {customTip && (
-        <Col className="col-12 col-md-6 col-lg-4 my-3">
-          <Form.Group controlId="customTip">
-            <Form.Label>What is the custom tip or gratuity amount?</Form.Label>
+    <div className="d-flex flex-column">
+      <h5>Enter the bill&#39;s information</h5>
+      <Form onSubmit={SplitBill}>
+        <Col className="my-3">
+          <Form.Group controlId="total">
+            <Form.Label>What was the bill&#39;s total cost?</Form.Label>
             <Form.Control
               className="h-100"
               type="number"
               min="0.01"
               step="0.01"
-              placeholder="Tip/Gratuity ($)"
-              value={billDetails.tip}
-              onChange={handleCustomTip}
+              placeholder="Total"
+              value={billDetails.total}
+              onChange={handleNumInput}
               required
             />
           </Form.Group>
         </Col>
-      )}
-      <Col className="col-12 col-md-6 col-lg-4 my-3">
-        <Form.Group controlId="people">
-          <Form.Label>How many people are splitting this bill?</Form.Label>
-          <Form.Control
-            className="h-100"
-            type="number"
-            min="2"
-            step="1"
-            placeholder="People"
-            value={billDetails.people}
-            onChange={handleNumInput}
-            required
-          />
+        <Col className="my-3">
+          <Form.Group controlId="tax">
+            <Form.Label>What was the tax amount on the bill?</Form.Label>
+            <Form.Control
+              className="h-100"
+              type="number"
+              min="0.01"
+              step="0.01"
+              placeholder="Tax"
+              value={billDetails.tax}
+              onChange={handleNumInput}
+              required
+            />
+          </Form.Group>
+        </Col>
+        <Col className="my-3">
+          <Form.Group controlId="tipPercentage">
+            <Form.Label>How much do you want to tip?</Form.Label>
+            <Form.Select
+              className="h-100"
+              placeholder="Tip"
+              value={billDetails.tipPercentage}
+              onChange={handleInput}
+              required
+            >
+              <option disabled>Tip Percentage</option>
+              <option value="0.15">15%</option>
+              <option value="0.18">18%</option>
+              <option value="0.20">20%</option>
+              <option value="Custom">Custom</option>
+            </Form.Select>
+          </Form.Group>
+        </Col>
+        {customTip && (
+          <Col className="my-3">
+            <Form.Group controlId="customTip">
+              <Form.Label>
+                What is the custom tip or gratuity amount?
+              </Form.Label>
+              <Form.Control
+                className="h-100"
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="Tip/Gratuity ($)"
+                value={billDetails.tip}
+                onChange={handleCustomTip}
+                required
+              />
+            </Form.Group>
+          </Col>
+        )}
+        <Col className="my-3">
+          <Form.Group controlId="people">
+            <Form.Label>How many people are splitting this bill?</Form.Label>
+            <Form.Control
+              className="h-100"
+              type="number"
+              min="2"
+              step="1"
+              placeholder="People"
+              value={billDetails.people}
+              onChange={handleNumInput}
+              required
+            />
+          </Form.Group>
+        </Col>
+        <Form.Group className="my-3">
+          <Button
+            className="green-button"
+            id={styles.splitEvenBtn}
+            type="submit"
+          >
+            Split
+          </Button>
         </Form.Group>
-      </Col>
-      <Form.Group className="my-3">
-        <Button className="green-button" id={styles.splitEvenBtn} type="submit">
-          Split
-        </Button>
-      </Form.Group>
-    </Form>
+      </Form>
+    </div>
   );
 };
 
